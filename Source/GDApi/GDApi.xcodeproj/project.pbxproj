@@ -56,13 +56,6 @@
 		C33AF8251E1D000900D4FE87 /* GDstatic.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF8021E1D000900D4FE87 /* GDstatic.m */; };
 		C33AF8261E1D000900D4FE87 /* GDUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8031E1D000900D4FE87 /* GDUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C33AF8271E1D000900D4FE87 /* GDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF8041E1D000900D4FE87 /* GDUtils.m */; };
-		C33AF8481E1D011E00D4FE87 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33AF83E1E1D011E00D4FE87 /* GoogleMobileAds.framework */; };
-		C33AF8491E1D011E00D4FE87 /* GADMAdNetworkAdapterProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8401E1D011E00D4FE87 /* GADMAdNetworkAdapterProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF84A1E1D011E00D4FE87 /* GADMAdNetworkConnectorProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8411E1D011E00D4FE87 /* GADMAdNetworkConnectorProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF84B1E1D011E00D4FE87 /* GADMediationAdRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8421E1D011E00D4FE87 /* GADMediationAdRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF84C1E1D011E00D4FE87 /* GADMEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8431E1D011E00D4FE87 /* GADMEnums.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF84D1E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkAdapterProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8441E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkAdapterProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF84E1E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkConnectorProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8451E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkConnectorProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +82,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2D2E265868BC5783BA7AA0B2 /* Pods-GDApi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDApi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GDApi/Pods-GDApi.debug.xcconfig"; sourceTree = "<group>"; };
+		377F5A1F2C84CB97BF6AE3E1 /* Pods-GDApi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDApi.release.xcconfig"; path = "Pods/Target Support Files/Pods-GDApi/Pods-GDApi.release.xcconfig"; sourceTree = "<group>"; };
 		C33AF7521E1BEABE00D4FE87 /* libGDApi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGDApi.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33AF7551E1BEABE00D4FE87 /* GDApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GDApi.h; sourceTree = "<group>"; };
 		C33AF7E51E1D000900D4FE87 /* GDAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAd.h; sourceTree = "<group>"; };
@@ -123,15 +118,6 @@
 		C33AF8021E1D000900D4FE87 /* GDstatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDstatic.m; sourceTree = "<group>"; };
 		C33AF8031E1D000900D4FE87 /* GDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDUtils.h; sourceTree = "<group>"; };
 		C33AF8041E1D000900D4FE87 /* GDUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDUtils.m; sourceTree = "<group>"; };
-		C33AF83E1E1D011E00D4FE87 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
-		C33AF8401E1D011E00D4FE87 /* GADMAdNetworkAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdNetworkAdapterProtocol.h; sourceTree = "<group>"; };
-		C33AF8411E1D011E00D4FE87 /* GADMAdNetworkConnectorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdNetworkConnectorProtocol.h; sourceTree = "<group>"; };
-		C33AF8421E1D011E00D4FE87 /* GADMediationAdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdRequest.h; sourceTree = "<group>"; };
-		C33AF8431E1D011E00D4FE87 /* GADMEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMEnums.h; sourceTree = "<group>"; };
-		C33AF8441E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMRewardBasedVideoAdNetworkAdapterProtocol.h; sourceTree = "<group>"; };
-		C33AF8451E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkConnectorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMRewardBasedVideoAdNetworkConnectorProtocol.h; sourceTree = "<group>"; };
-		C33AF8461E1D011E00D4FE87 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		C33AF8471E1D011E00D4FE87 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +125,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C33AF8481E1D011E00D4FE87 /* GoogleMobileAds.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +136,8 @@
 			children = (
 				C33AF7541E1BEABE00D4FE87 /* GDApi */,
 				C33AF7531E1BEABE00D4FE87 /* Products */,
+				C3C6F18C1F7B83B300391C19 /* Frameworks */,
+				DB41037E3E7F06226BC504CC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,7 +152,6 @@
 		C33AF7541E1BEABE00D4FE87 /* GDApi */ = {
 			isa = PBXGroup;
 			children = (
-				C33AF83D1E1D011E00D4FE87 /* GoogleMobileAdsSdkiOS-7.13.1 */,
 				C33AF7551E1BEABE00D4FE87 /* GDApi.h */,
 				C33AF7E51E1D000900D4FE87 /* GDAd.h */,
 				C33AF7E61E1D000900D4FE87 /* GDAd.m */,
@@ -203,28 +189,20 @@
 			path = GDApi;
 			sourceTree = "<group>";
 		};
-		C33AF83D1E1D011E00D4FE87 /* GoogleMobileAdsSdkiOS-7.13.1 */ = {
+		C3C6F18C1F7B83B300391C19 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C33AF83E1E1D011E00D4FE87 /* GoogleMobileAds.framework */,
-				C33AF83F1E1D011E00D4FE87 /* Mediation Adapters */,
-				C33AF8471E1D011E00D4FE87 /* README.txt */,
 			);
-			path = "GoogleMobileAdsSdkiOS-7.13.1";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C33AF83F1E1D011E00D4FE87 /* Mediation Adapters */ = {
+		DB41037E3E7F06226BC504CC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C33AF8401E1D011E00D4FE87 /* GADMAdNetworkAdapterProtocol.h */,
-				C33AF8411E1D011E00D4FE87 /* GADMAdNetworkConnectorProtocol.h */,
-				C33AF8421E1D011E00D4FE87 /* GADMediationAdRequest.h */,
-				C33AF8431E1D011E00D4FE87 /* GADMEnums.h */,
-				C33AF8441E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkAdapterProtocol.h */,
-				C33AF8451E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkConnectorProtocol.h */,
-				C33AF8461E1D011E00D4FE87 /* README.txt */,
+				2D2E265868BC5783BA7AA0B2 /* Pods-GDApi.debug.xcconfig */,
+				377F5A1F2C84CB97BF6AE3E1 /* Pods-GDApi.release.xcconfig */,
 			);
-			path = "Mediation Adapters";
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,20 +218,14 @@
 				C33AF8101E1D000900D4FE87 /* GDAlignment.h in Headers */,
 				C33AF8221E1D000900D4FE87 /* GDSendObject.h in Headers */,
 				C33AF8081E1D000900D4FE87 /* GDAd.h in Headers */,
-				C33AF84D1E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkAdapterProtocol.h in Headers */,
 				C33AF8201E1D000900D4FE87 /* GDresponseData.h in Headers */,
 				C33AF8241E1D000900D4FE87 /* GDstatic.h in Headers */,
 				C33AF81A1E1D000900D4FE87 /* GDLogRequest.h in Headers */,
-				C33AF84B1E1D011E00D4FE87 /* GADMediationAdRequest.h in Headers */,
-				C33AF8491E1D011E00D4FE87 /* GADMAdNetworkAdapterProtocol.h in Headers */,
 				C33AF8141E1D000900D4FE87 /* GDcustomLog.h in Headers */,
 				C33AF8161E1D000900D4FE87 /* GDlogchannel.h in Headers */,
-				C33AF84C1E1D011E00D4FE87 /* GADMEnums.h in Headers */,
 				C33AF8121E1D000900D4FE87 /* GDbannerData.h in Headers */,
 				C33AF8261E1D000900D4FE87 /* GDUtils.h in Headers */,
-				C33AF84E1E1D011E00D4FE87 /* GADMRewardBasedVideoAdNetworkConnectorProtocol.h in Headers */,
 				C33AF81E1E1D000900D4FE87 /* GDResponseActRes.h in Headers */,
-				C33AF84A1E1D011E00D4FE87 /* GADMAdNetworkConnectorProtocol.h in Headers */,
 				C33AF81C1E1D000900D4FE87 /* GDpostObj.h in Headers */,
 				C33AF8181E1D000900D4FE87 /* GDLogger.h in Headers */,
 				C33AF75F1E1BEAF700D4FE87 /* GDApi.h in Headers */,
@@ -267,11 +239,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C33AF75B1E1BEABE00D4FE87 /* Build configuration list for PBXNativeTarget "GDApi" */;
 			buildPhases = (
+				D36D995016A9CE1A259D4905 /* [CP] Check Pods Manifest.lock */,
 				C33AF74E1E1BEABE00D4FE87 /* Sources */,
 				C33AF74F1E1BEABE00D4FE87 /* Frameworks */,
 				C33AF7501E1BEABE00D4FE87 /* CopyFiles */,
 				C33AF75E1E1BEAF100D4FE87 /* Headers */,
 				C33AF7601E1BEBF300D4FE87 /* ShellScript */,
+				09E4991DD827E284E53F6B8B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -322,6 +296,21 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		09E4991DD827E284E53F6B8B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GDApi/Pods-GDApi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C33AF7601E1BEBF300D4FE87 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -347,6 +336,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\nset +u\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\nSF_TARGET_NAME=${PROJECT_NAME}\nSF_EXECUTABLE_PATH=\"lib${SF_TARGET_NAME}.a\"\nSF_WRAPPER_NAME=\"${SF_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nSF_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\nSF_OTHER_PLATFORM=iphonesimulator\nelse\nSF_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$SF_SDK_PLATFORM$ ]]\nthen\nSF_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${SF_OTHER_PLATFORM}\"\nelse\necho \"Could not find platform name from build products directory: $BUILT_PRODUCTS_DIR\"\nexit 1\nfi\n\n# Build the other platform.\nxcrun xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nxcrun lipo -create \"${BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" -output \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"\n\n# Copy the binary to the other architecture folder to have a complete framework in both.\ncp -a \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"";
+		};
+		D36D995016A9CE1A259D4905 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GDApi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -475,6 +482,7 @@
 		};
 		C33AF75C1E1BEABE00D4FE87 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D2E265868BC5783BA7AA0B2 /* Pods-GDApi.debug.xcconfig */;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = FKJ4632WST;
@@ -494,6 +502,7 @@
 		};
 		C33AF75D1E1BEABE00D4FE87 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 377F5A1F2C84CB97BF6AE3E1 /* Pods-GDApi.release.xcconfig */;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = FKJ4632WST;
