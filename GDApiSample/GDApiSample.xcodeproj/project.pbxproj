@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C364C6C31E28C3C700378FF0 /* GDApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C364C6A11E28C3C700378FF0 /* GDApi.framework */; };
-		C364C6C41E28C3C700378FF0 /* libGDApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C364C6AC1E28C3C700378FF0 /* libGDApi.a */; };
+		2D1EF208A0C3404B17936A6B /* libPods-GDApiSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3445016B872E630CBE544DAD /* libPods-GDApiSample.a */; };
 		C37688861E1FBEB600C3B8A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C37688851E1FBEB600C3B8A8 /* main.m */; };
 		C37688891E1FBEB600C3B8A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C37688881E1FBEB600C3B8A8 /* AppDelegate.m */; };
 		C376888C1E1FBEB600C3B8A8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C376888B1E1FBEB600C3B8A8 /* ViewController.m */; };
@@ -16,6 +15,9 @@
 		C37688911E1FBEB600C3B8A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C37688901E1FBEB600C3B8A8 /* Assets.xcassets */; };
 		C37688941E1FBEB600C3B8A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C37688921E1FBEB600C3B8A8 /* LaunchScreen.storyboard */; };
 		C376889F1E1FBEB600C3B8A8 /* GDApiSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C376889E1E1FBEB600C3B8A8 /* GDApiSampleTests.m */; };
+		C392D6E51F7B9CEE008B66E4 /* GDApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C392D6CA1F7B9CEE008B66E4 /* GDApi.framework */; };
+		C392D6E61F7B9CEE008B66E4 /* libGDApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C392D6D51F7B9CEE008B66E4 /* libGDApi.a */; };
+		C392D6E71F7B9CEE008B66E4 /* libPods-GDApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C392D6D61F7B9CEE008B66E4 /* libPods-GDApi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,34 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C364C6A11E28C3C700378FF0 /* GDApi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GDApi.framework; sourceTree = "<group>"; };
-		C364C6A31E28C3C700378FF0 /* GDAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAdDelegate.h; sourceTree = "<group>"; };
-		C364C6A41E28C3C700378FF0 /* GDAdPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAdPosition.h; sourceTree = "<group>"; };
-		C364C6A51E28C3C700378FF0 /* GDAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAdSize.h; sourceTree = "<group>"; };
-		C364C6A61E28C3C700378FF0 /* GDAlignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAlignment.h; sourceTree = "<group>"; };
-		C364C6A71E28C3C700378FF0 /* GDApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDApi.h; sourceTree = "<group>"; };
-		C364C6A81E28C3C700378FF0 /* GDLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDLogger.h; sourceTree = "<group>"; };
-		C364C6AB1E28C3C700378FF0 /* GDApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDApi.h; sourceTree = "<group>"; };
-		C364C6AC1E28C3C700378FF0 /* libGDApi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDApi.a; sourceTree = "<group>"; };
-		C364C6B01E28C3C700378FF0 /* GADMAdNetworkAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdNetworkAdapterProtocol.h; sourceTree = "<group>"; };
-		C364C6B11E28C3C700378FF0 /* GADMAdNetworkConnectorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMAdNetworkConnectorProtocol.h; sourceTree = "<group>"; };
-		C364C6B21E28C3C700378FF0 /* GADMediationAdRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMediationAdRequest.h; sourceTree = "<group>"; };
-		C364C6B31E28C3C700378FF0 /* GADMEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMEnums.h; sourceTree = "<group>"; };
-		C364C6B41E28C3C700378FF0 /* GADMRewardBasedVideoAdNetworkAdapterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMRewardBasedVideoAdNetworkAdapterProtocol.h; sourceTree = "<group>"; };
-		C364C6B51E28C3C700378FF0 /* GADMRewardBasedVideoAdNetworkConnectorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADMRewardBasedVideoAdNetworkConnectorProtocol.h; sourceTree = "<group>"; };
-		C364C6B61E28C3C700378FF0 /* GDAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAd.h; sourceTree = "<group>"; };
-		C364C6B71E28C3C700378FF0 /* GDbannerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDbannerData.h; sourceTree = "<group>"; };
-		C364C6B81E28C3C700378FF0 /* GDcustomLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDcustomLog.h; sourceTree = "<group>"; };
-		C364C6B91E28C3C700378FF0 /* GDlogchannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDlogchannel.h; sourceTree = "<group>"; };
-		C364C6BA1E28C3C700378FF0 /* GDLogRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDLogRequest.h; sourceTree = "<group>"; };
-		C364C6BB1E28C3C700378FF0 /* GDpostObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDpostObj.h; sourceTree = "<group>"; };
-		C364C6BC1E28C3C700378FF0 /* GDResponseActRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDResponseActRes.h; sourceTree = "<group>"; };
-		C364C6BD1E28C3C700378FF0 /* GDresponseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDresponseData.h; sourceTree = "<group>"; };
-		C364C6BE1E28C3C700378FF0 /* GDSendObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDSendObject.h; sourceTree = "<group>"; };
-		C364C6BF1E28C3C700378FF0 /* GDstatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDstatic.h; sourceTree = "<group>"; };
-		C364C6C01E28C3C700378FF0 /* GDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDUtils.h; sourceTree = "<group>"; };
-		C364C6C11E28C3C700378FF0 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
-		C364C6C21E28C3C700378FF0 /* SessionId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionId.h; sourceTree = "<group>"; };
+		3445016B872E630CBE544DAD /* libPods-GDApiSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GDApiSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F5F7038B77BA2B450072580 /* Pods-GDApiSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDApiSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-GDApiSample/Pods-GDApiSample.release.xcconfig"; sourceTree = "<group>"; };
+		718C3E4B8062555DBD2E0C39 /* Pods-GDApiSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDApiSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GDApiSample/Pods-GDApiSample.debug.xcconfig"; sourceTree = "<group>"; };
 		C37688811E1FBEB600C3B8A8 /* GDApiSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GDApiSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37688851E1FBEB600C3B8A8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C37688871E1FBEB600C3B8A8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -70,6 +47,27 @@
 		C376889A1E1FBEB600C3B8A8 /* GDApiSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GDApiSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C376889E1E1FBEB600C3B8A8 /* GDApiSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GDApiSampleTests.m; sourceTree = "<group>"; };
 		C37688A01E1FBEB600C3B8A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C392D6CA1F7B9CEE008B66E4 /* GDApi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GDApi.framework; sourceTree = "<group>"; };
+		C392D6CC1F7B9CEE008B66E4 /* GDAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAdDelegate.h; sourceTree = "<group>"; };
+		C392D6CD1F7B9CEE008B66E4 /* GDAdPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAdPosition.h; sourceTree = "<group>"; };
+		C392D6CE1F7B9CEE008B66E4 /* GDAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAdSize.h; sourceTree = "<group>"; };
+		C392D6CF1F7B9CEE008B66E4 /* GDAlignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAlignment.h; sourceTree = "<group>"; };
+		C392D6D01F7B9CEE008B66E4 /* GDApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDApi.h; sourceTree = "<group>"; };
+		C392D6D11F7B9CEE008B66E4 /* GDLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDLogger.h; sourceTree = "<group>"; };
+		C392D6D41F7B9CEE008B66E4 /* GDApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDApi.h; sourceTree = "<group>"; };
+		C392D6D51F7B9CEE008B66E4 /* libGDApi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGDApi.a; sourceTree = "<group>"; };
+		C392D6D61F7B9CEE008B66E4 /* libPods-GDApi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPods-GDApi.a"; sourceTree = "<group>"; };
+		C392D6DA1F7B9CEE008B66E4 /* GDAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAd.h; sourceTree = "<group>"; };
+		C392D6DB1F7B9CEE008B66E4 /* GDbannerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDbannerData.h; sourceTree = "<group>"; };
+		C392D6DC1F7B9CEE008B66E4 /* GDcustomLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDcustomLog.h; sourceTree = "<group>"; };
+		C392D6DD1F7B9CEE008B66E4 /* GDlogchannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDlogchannel.h; sourceTree = "<group>"; };
+		C392D6DE1F7B9CEE008B66E4 /* GDLogRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDLogRequest.h; sourceTree = "<group>"; };
+		C392D6DF1F7B9CEE008B66E4 /* GDpostObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDpostObj.h; sourceTree = "<group>"; };
+		C392D6E01F7B9CEE008B66E4 /* GDResponseActRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDResponseActRes.h; sourceTree = "<group>"; };
+		C392D6E11F7B9CEE008B66E4 /* GDresponseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDresponseData.h; sourceTree = "<group>"; };
+		C392D6E21F7B9CEE008B66E4 /* GDSendObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDSendObject.h; sourceTree = "<group>"; };
+		C392D6E31F7B9CEE008B66E4 /* GDstatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDstatic.h; sourceTree = "<group>"; };
+		C392D6E41F7B9CEE008B66E4 /* GDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +75,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C364C6C31E28C3C700378FF0 /* GDApi.framework in Frameworks */,
-				C364C6C41E28C3C700378FF0 /* libGDApi.a in Frameworks */,
+				C392D6E51F7B9CEE008B66E4 /* GDApi.framework in Frameworks */,
+				C392D6E71F7B9CEE008B66E4 /* libPods-GDApi.a in Frameworks */,
+				C392D6E61F7B9CEE008B66E4 /* libGDApi.a in Frameworks */,
+				2D1EF208A0C3404B17936A6B /* libPods-GDApiSample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,87 +92,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C364C6A01E28C3C700378FF0 /* GDApi_Framework */ = {
+		93D60F33A3C5F660A8A80586 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C364C6A11E28C3C700378FF0 /* GDApi.framework */,
-				C364C6A21E28C3C700378FF0 /* GDApiPublicHeaders */,
-				C364C6A91E28C3C700378FF0 /* include */,
-				C364C6AC1E28C3C700378FF0 /* libGDApi.a */,
-				C364C6AD1E28C3C700378FF0 /* usr */,
+				3445016B872E630CBE544DAD /* libPods-GDApiSample.a */,
 			);
-			path = GDApi_Framework;
-			sourceTree = "<group>";
-		};
-		C364C6A21E28C3C700378FF0 /* GDApiPublicHeaders */ = {
-			isa = PBXGroup;
-			children = (
-				C364C6A31E28C3C700378FF0 /* GDAdDelegate.h */,
-				C364C6A41E28C3C700378FF0 /* GDAdPosition.h */,
-				C364C6A51E28C3C700378FF0 /* GDAdSize.h */,
-				C364C6A61E28C3C700378FF0 /* GDAlignment.h */,
-				C364C6A71E28C3C700378FF0 /* GDApi.h */,
-				C364C6A81E28C3C700378FF0 /* GDLogger.h */,
-			);
-			path = GDApiPublicHeaders;
-			sourceTree = "<group>";
-		};
-		C364C6A91E28C3C700378FF0 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				C364C6AA1E28C3C700378FF0 /* GDApi */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		C364C6AA1E28C3C700378FF0 /* GDApi */ = {
-			isa = PBXGroup;
-			children = (
-				C364C6AB1E28C3C700378FF0 /* GDApi.h */,
-			);
-			path = GDApi;
-			sourceTree = "<group>";
-		};
-		C364C6AD1E28C3C700378FF0 /* usr */ = {
-			isa = PBXGroup;
-			children = (
-				C364C6AE1E28C3C700378FF0 /* local */,
-			);
-			path = usr;
-			sourceTree = "<group>";
-		};
-		C364C6AE1E28C3C700378FF0 /* local */ = {
-			isa = PBXGroup;
-			children = (
-				C364C6AF1E28C3C700378FF0 /* include */,
-			);
-			path = local;
-			sourceTree = "<group>";
-		};
-		C364C6AF1E28C3C700378FF0 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				C364C6B01E28C3C700378FF0 /* GADMAdNetworkAdapterProtocol.h */,
-				C364C6B11E28C3C700378FF0 /* GADMAdNetworkConnectorProtocol.h */,
-				C364C6B21E28C3C700378FF0 /* GADMediationAdRequest.h */,
-				C364C6B31E28C3C700378FF0 /* GADMEnums.h */,
-				C364C6B41E28C3C700378FF0 /* GADMRewardBasedVideoAdNetworkAdapterProtocol.h */,
-				C364C6B51E28C3C700378FF0 /* GADMRewardBasedVideoAdNetworkConnectorProtocol.h */,
-				C364C6B61E28C3C700378FF0 /* GDAd.h */,
-				C364C6B71E28C3C700378FF0 /* GDbannerData.h */,
-				C364C6B81E28C3C700378FF0 /* GDcustomLog.h */,
-				C364C6B91E28C3C700378FF0 /* GDlogchannel.h */,
-				C364C6BA1E28C3C700378FF0 /* GDLogRequest.h */,
-				C364C6BB1E28C3C700378FF0 /* GDpostObj.h */,
-				C364C6BC1E28C3C700378FF0 /* GDResponseActRes.h */,
-				C364C6BD1E28C3C700378FF0 /* GDresponseData.h */,
-				C364C6BE1E28C3C700378FF0 /* GDSendObject.h */,
-				C364C6BF1E28C3C700378FF0 /* GDstatic.h */,
-				C364C6C01E28C3C700378FF0 /* GDUtils.h */,
-				C364C6C11E28C3C700378FF0 /* NSString+MD5.h */,
-				C364C6C21E28C3C700378FF0 /* SessionId.h */,
-			);
-			path = include;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		C37688781E1FBEB600C3B8A8 = {
@@ -181,6 +106,8 @@
 				C37688831E1FBEB600C3B8A8 /* GDApiSample */,
 				C376889D1E1FBEB600C3B8A8 /* GDApiSampleTests */,
 				C37688821E1FBEB600C3B8A8 /* Products */,
+				E7303CF87722DA3918EFF961 /* Pods */,
+				93D60F33A3C5F660A8A80586 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,7 +123,7 @@
 		C37688831E1FBEB600C3B8A8 /* GDApiSample */ = {
 			isa = PBXGroup;
 			children = (
-				C364C6A01E28C3C700378FF0 /* GDApi_Framework */,
+				C392D6C91F7B9CEE008B66E4 /* GDApi_Framework */,
 				C37688871E1FBEB600C3B8A8 /* AppDelegate.h */,
 				C37688881E1FBEB600C3B8A8 /* AppDelegate.m */,
 				C376888A1E1FBEB600C3B8A8 /* ViewController.h */,
@@ -227,6 +154,91 @@
 			path = GDApiSampleTests;
 			sourceTree = "<group>";
 		};
+		C392D6C91F7B9CEE008B66E4 /* GDApi_Framework */ = {
+			isa = PBXGroup;
+			children = (
+				C392D6CA1F7B9CEE008B66E4 /* GDApi.framework */,
+				C392D6CB1F7B9CEE008B66E4 /* GDApiPublicHeaders */,
+				C392D6D21F7B9CEE008B66E4 /* include */,
+				C392D6D51F7B9CEE008B66E4 /* libGDApi.a */,
+				C392D6D61F7B9CEE008B66E4 /* libPods-GDApi.a */,
+				C392D6D71F7B9CEE008B66E4 /* usr */,
+			);
+			path = GDApi_Framework;
+			sourceTree = "<group>";
+		};
+		C392D6CB1F7B9CEE008B66E4 /* GDApiPublicHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				C392D6CC1F7B9CEE008B66E4 /* GDAdDelegate.h */,
+				C392D6CD1F7B9CEE008B66E4 /* GDAdPosition.h */,
+				C392D6CE1F7B9CEE008B66E4 /* GDAdSize.h */,
+				C392D6CF1F7B9CEE008B66E4 /* GDAlignment.h */,
+				C392D6D01F7B9CEE008B66E4 /* GDApi.h */,
+				C392D6D11F7B9CEE008B66E4 /* GDLogger.h */,
+			);
+			path = GDApiPublicHeaders;
+			sourceTree = "<group>";
+		};
+		C392D6D21F7B9CEE008B66E4 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C392D6D31F7B9CEE008B66E4 /* GDApi */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		C392D6D31F7B9CEE008B66E4 /* GDApi */ = {
+			isa = PBXGroup;
+			children = (
+				C392D6D41F7B9CEE008B66E4 /* GDApi.h */,
+			);
+			path = GDApi;
+			sourceTree = "<group>";
+		};
+		C392D6D71F7B9CEE008B66E4 /* usr */ = {
+			isa = PBXGroup;
+			children = (
+				C392D6D81F7B9CEE008B66E4 /* local */,
+			);
+			path = usr;
+			sourceTree = "<group>";
+		};
+		C392D6D81F7B9CEE008B66E4 /* local */ = {
+			isa = PBXGroup;
+			children = (
+				C392D6D91F7B9CEE008B66E4 /* include */,
+			);
+			path = local;
+			sourceTree = "<group>";
+		};
+		C392D6D91F7B9CEE008B66E4 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C392D6DA1F7B9CEE008B66E4 /* GDAd.h */,
+				C392D6DB1F7B9CEE008B66E4 /* GDbannerData.h */,
+				C392D6DC1F7B9CEE008B66E4 /* GDcustomLog.h */,
+				C392D6DD1F7B9CEE008B66E4 /* GDlogchannel.h */,
+				C392D6DE1F7B9CEE008B66E4 /* GDLogRequest.h */,
+				C392D6DF1F7B9CEE008B66E4 /* GDpostObj.h */,
+				C392D6E01F7B9CEE008B66E4 /* GDResponseActRes.h */,
+				C392D6E11F7B9CEE008B66E4 /* GDresponseData.h */,
+				C392D6E21F7B9CEE008B66E4 /* GDSendObject.h */,
+				C392D6E31F7B9CEE008B66E4 /* GDstatic.h */,
+				C392D6E41F7B9CEE008B66E4 /* GDUtils.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		E7303CF87722DA3918EFF961 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				718C3E4B8062555DBD2E0C39 /* Pods-GDApiSample.debug.xcconfig */,
+				5F5F7038B77BA2B450072580 /* Pods-GDApiSample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -234,9 +246,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C37688A31E1FBEB600C3B8A8 /* Build configuration list for PBXNativeTarget "GDApiSample" */;
 			buildPhases = (
+				6CD811651A2EB61FCCD6C711 /* [CP] Check Pods Manifest.lock */,
 				C376887D1E1FBEB600C3B8A8 /* Sources */,
 				C376887E1E1FBEB600C3B8A8 /* Frameworks */,
 				C376887F1E1FBEB600C3B8A8 /* Resources */,
+				CD462056FC2F0BC692C21B52 /* [CP] Embed Pods Frameworks */,
+				8E1235FC13A8505C46E324F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -276,7 +291,7 @@
 				TargetAttributes = {
 					C37688801E1FBEB600C3B8A8 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = FKJ4632WST;
+						DevelopmentTeam = 8J9S42MVYP;
 						ProvisioningStyle = Automatic;
 					};
 					C37688991E1FBEB600C3B8A8 = {
@@ -325,6 +340,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6CD811651A2EB61FCCD6C711 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GDApiSample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E1235FC13A8505C46E324F8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GDApiSample/Pods-GDApiSample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD462056FC2F0BC692C21B52 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GDApiSample/Pods-GDApiSample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C376887D1E1FBEB600C3B8A8 /* Sources */ = {
@@ -467,9 +533,10 @@
 		};
 		C37688A41E1FBEB600C3B8A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 718C3E4B8062555DBD2E0C39 /* Pods-GDApiSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FKJ4632WST;
+				DEVELOPMENT_TEAM = 8J9S42MVYP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/GDApiSample/GoogleMobileAdsSdkiOS-7.13.1",
@@ -488,9 +555,10 @@
 		};
 		C37688A51E1FBEB600C3B8A8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F5F7038B77BA2B450072580 /* Pods-GDApiSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FKJ4632WST;
+				DEVELOPMENT_TEAM = 8J9S42MVYP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/GDApiSample/GoogleMobileAdsSdkiOS-7.13.1",

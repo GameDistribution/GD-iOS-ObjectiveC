@@ -22,6 +22,7 @@
 +(GDAd*) gdAPI;
 +(NSUserDefaults*) cookie;
 +(void) init:(NSString*) gameId andWithRegId:(NSString*) regId;
++(void) init:(NSString*) gameId andWithRegId:(NSString*) regId andWithIsPlugin:(Boolean) isPlugin;
 +(NSNumber*)incVisit;
 +(void) visit;
 +(GDSendObject*) ping;

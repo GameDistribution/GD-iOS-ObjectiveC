@@ -14,13 +14,13 @@
 @synthesize delegate;
 
 -(void) dispatchEvent:(NSString*) event withData:(NSData*) data{
-    
+
     if([event isEqualToString:@"onBannerReceived"]){
         [self.delegate onBannerReceived:self withData:data];
     }
-//    else if([event isEqualToString:@"onBannerStarted"]){
-//        [self.delegate onBannerStarted:self];
-//    }
+    else if([event isEqualToString:@"onBannerStarted"]){
+        [self.delegate onBannerStarted:self];
+    }
     else if([event isEqualToString:@"onBannerClosed"]){
         [self.delegate onBannerClosed:self];
     }

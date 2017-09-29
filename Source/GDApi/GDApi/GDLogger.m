@@ -1,4 +1,3 @@
-//
 //  GDLogger.m
 //  gdapi
 //
@@ -24,6 +23,7 @@
 
 static GDAd* gdAPI;
 static NSUserDefaults* cookie;
+static Boolean isCordovaPlugin = false;
 NSMutableArray* elementsArray;
 NSString* currentString;
 GDbannerData* bannerData;
@@ -61,6 +61,23 @@ GDAdDelegate* delegate;
     }
     
 }
+
++(void) init:(NSString *)gameId andWithRegId:(NSString *)regId andWithIsPlugin:(Boolean)isPlugin{
+    
+    if(gdAPI == nil){
+        
+        if(isPlugin){
+            isCordovaPlugin = true;
+        }
+        [self init:gameId andWithRegId:regId];
+        
+    }
+    else{
+        [GDUtils log:@"Api is already initialized!"];
+    }
+
+}
+
 
 +(void) initGDApi{
     if(gdAPI == nil){
@@ -253,7 +270,13 @@ GDAdDelegate* delegate;
     }
     
     if(bannerData.pre && !preShowed){
-        [gdAPI requestInterstitial];
+        if(isCordovaPlugin){
+            [gdAPI requestInterstitialForCordova];
+        }
+        else{
+            [gdAPI requestInterstitial];
+        }
+        
         preShowed = true;
     }
 }
@@ -328,4 +351,5 @@ GDAdDelegate* delegate;
         [gdAPI setDelegate:delegate];
     }
 }
+
 @end

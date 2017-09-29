@@ -14,7 +14,7 @@
 @protocol AdDelegate <NSObject>
 
 -(void) onBannerReceived:(GDAdDelegate*) sender withData:(NSData*) data;
-//-(void) onBannerStarted:(GDAdDelegate*) sender;
+-(void) onBannerStarted:(GDAdDelegate*) sender;
 -(void) onBannerClosed:(GDAdDelegate*) sender;
 -(void) onBannerFailedToLoad:(GDAdDelegate*) sender withData:(NSData*) data;
 

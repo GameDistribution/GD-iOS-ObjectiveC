@@ -30,7 +30,10 @@ NSString * BANNER_RECEIVED = @"onBannerReceived";
 NSString * BANNER_FAILED_TO_LOAD = @"onBannerFailedToLoad";
 NSString * BANNER_CLOSED = @"onBannerClosed";
 NSString * BANNER_STARTED = @"onBannerStarted";
+NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
+
 GDAdDelegate* eventDelegate;
+
 
 BOOL isApiInitialized = false;
 DFPBannerView *bannerView;
@@ -39,29 +42,28 @@ int W_Banner;
 int H_Banner;
 
 -(id) init:(NSString *)unitId andContext:(UIViewController *)context{
-    
     self.unitId = unitId;
     self.context = context;
     self.extras = [[NSMutableDictionary alloc] init];
     isApiInitialized = true;
-    
+
     return self;
 }
 
 -(void) requestBanner : (NSString *) size andAlinment:(NSString *)alignment andPositon:(NSString *)position{
     if(isApiInitialized){
-        
+
         float X_Co;
         float Y_Co;
-        
+
         bannerView = [[DFPBannerView  alloc] init];
         bannerView.adUnitID = self.unitId;
         bannerView.delegate = self;
         bannerView.rootViewController = self.context;
-        
-        
+
+
         // size adjustment of banner
-        
+
         if( [size  isEqual: @"AdSize.BANNER"]){
             bannerView.adSize = kGADAdSizeBanner;
             W_Banner = 320;
@@ -86,7 +88,7 @@ int H_Banner;
             bannerView.adSize = kGADAdSizeLeaderboard;
             W_Banner = 728;
             H_Banner = 90;
-            
+
         }
         else{
             bannerView.adSize = kGADAdSizeBanner;
@@ -94,7 +96,7 @@ int H_Banner;
             H_Banner = 50;
         }
         //end of size adjustment
-        
+
         // position of banner adjustment
         if([position isEqual:@"top"]){
             Y_Co = 0;
@@ -105,83 +107,106 @@ int H_Banner;
         else if([position isEqual:@"bottom"]){
             Y_Co = self.context.view.frame.size.height - H_Banner;
         }
-        
+
         // end of position adjustment
-        
+
         // banner alignment adjustment
         if([alignment isEqual:@"left"]){
             X_Co = 0;
         }
         else if([alignment isEqual:@"center"]){
             X_Co = (self.context.view.frame.size.width - W_Banner) / 2;
-            
+
         }
         else if([alignment isEqual:@"right"]){
             X_Co = self.context.view.frame.size.width - W_Banner;
-            
+
         }
         // end of alignment adjustment
-        
-        
+
+
         bannerView.frame = CGRectMake(X_Co, Y_Co, W_Banner, H_Banner);
-        
-        
+
+
         [self.context.view addSubview:bannerView];
         DFPRequest *request = [DFPRequest request];
-        
-        
-        
+
+
+
         if(self.deviceID != nil){
             request.testDevices = [NSArray arrayWithObjects:kDFPSimulatorID,self.deviceID,nil];
         }
-        
+
         if([self.extras count] > 0){
             request.customTargeting = self.extras;
         }
-        
-        
+
+
         [bannerView loadRequest:request];
     }
     else{
         NSLog(@"VXAdApi is not initialized.");
     }
-    
+
 }
 
 -(void) requestInterstitial{
-    
+
     if(isApiInitialized){
-        
+
         self.interstitial = [[DFPInterstitial alloc] initWithAdUnitID:self.unitId];
         self.interstitial.delegate = self;
         DFPRequest *request = [DFPRequest request];
-        
+
         if(self.deviceID != nil){
             request.testDevices = [NSArray arrayWithObjects:kDFPSimulatorID,self.deviceID,nil];
         }
-        
+
         if([self.extras count] > 0){
             request.customTargeting = self.extras;
         }
-        
+
         [self.interstitial loadRequest:request];
     }
     else{
         NSLog(@"VXAdApi is not initialized.");
-        
+
+    }
+}
+
+-(void) requestInterstitialForCordova{
+    if(isApiInitialized){
+
+        self.interstitial = [[DFPInterstitial alloc] initWithAdUnitID:cordovaAdxUnitID];
+        self.interstitial.delegate = self;
+        DFPRequest *request = [DFPRequest request];
+
+        if(self.deviceID != nil){
+            request.testDevices = [NSArray arrayWithObjects:kDFPSimulatorID,self.deviceID,nil];
+        }
+
+        if([self.extras count] > 0){
+            request.customTargeting = self.extras;
+        }
+
+        [self.interstitial loadRequest:request];
+    }
+    else{
+        NSLog(@"VXAdApi is not initialized.");
+
     }
 }
 
 -(void) destroyBanner{
-    
+
     if(isApiInitialized){
         bannerView.hidden = YES;
     }
     else{
         NSLog(@"VXAdApi is not initialized.");
-        
+
     }
-    
+
 }
 
 -(GDAdDelegate*) delegate{
@@ -189,7 +214,7 @@ int H_Banner;
 }
 
 -(void) setDelegate:(GDAdDelegate *)del{
-    
+
     eventDelegate = [[GDAdDelegate alloc] init];
     eventDelegate.delegate = del;
 }
@@ -217,7 +242,7 @@ int H_Banner;
 
 -(NSString *) getTestDevice{
     NSString *uniqueIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    
+
     return [GDUtils generateMD5:uniqueIdentifier];
 }
 
@@ -232,16 +257,16 @@ int H_Banner;
 // Called when an interstitial ad request succeeded.
 - (void)interstitialDidReceiveAd:(DFPInterstitial *)ad {
     NSLog(@"interstitialDidReceiveAd");
-    
+
     if (self.interstitial.isReady) {
         [self.interstitial presentFromRootViewController:self.context];
-        
+
         NSArray *keys = [NSArray arrayWithObjects:@"adType",@"width",@"height", nil];
         NSArray *objects = [NSArray arrayWithObjects:@"Interstitial",@"-1",@"-1", nil];
         NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                            forKeys:keys];
         NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-        
+
         [eventDelegate dispatchEvent:BANNER_RECEIVED withData:eventData];
     } else {
         NSLog(@"Ad wasn't ready");
@@ -252,26 +277,26 @@ int H_Banner;
 - (void)interstitial:(DFPInterstitial *)ad
 didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
-    
+
     NSArray *keys = [NSArray arrayWithObjects:@"adType",@"error", nil];
     NSArray *objects = [NSArray arrayWithObjects:@"Interstitial",[error localizedDescription], nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
     NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-    
+
     [eventDelegate dispatchEvent:BANNER_FAILED_TO_LOAD withData:eventData];
 }
 
 // Called just before presenting an interstitial.
 - (void)interstitialWillPresentScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillPresentScreen");
-    //    [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
+    [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
 }
 
 // Called before the interstitial is to be animated off the screen.
 - (void)interstitialWillDismissScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillDismissScreen");
-    
+
 }
 
 // Called just after dismissing an interstitial and it has animated off the screen.
@@ -292,35 +317,35 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(DFPBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
-    
+
     NSString* width; NSString* height;
     width = [NSString stringWithFormat:@"%d",W_Banner];
     height =[NSString stringWithFormat:@"%d",H_Banner];
-    
+
     NSArray *keys = [NSArray arrayWithObjects:@"adType",@"width",@"height", nil];
     NSArray *objects = [NSArray arrayWithObjects:@"Banner",width,height, nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
     NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-    
+
     [eventDelegate dispatchEvent:BANNER_RECEIVED withData:eventData];
-    
+
 }
 
 // Tells the delegate an ad request failed.
 - (void)adView:(DFPBannerView *)adView
 didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"adView:didFailToReceiveAdWithError: %@", [error localizedDescription]);
-    
+
     NSArray *keys = [NSArray arrayWithObjects:@"adType",@"error", nil];
     NSArray *objects = [NSArray arrayWithObjects:@"Banner",[error localizedDescription], nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
     NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-    
+
     [eventDelegate dispatchEvent:BANNER_FAILED_TO_LOAD withData:eventData];
-    
-    
+
+
 }
 
 // Tells the delegate that a full screen view will be presented in response
