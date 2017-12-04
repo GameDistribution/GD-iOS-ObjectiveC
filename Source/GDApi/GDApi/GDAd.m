@@ -5,14 +5,14 @@
 //  Created by Emre Demir on 30/12/16.
 //  Copyright © 2016 Vooxe. All rights reserved.
 //
-
+@import GoogleMobileAds;
 #import "GDAd.h"
 #import <Foundation/Foundation.h>
 #import <AdSupport/ASIdentifierManager.h>
 #import <CommonCrypto/CommonDigest.h>
 #import "GDAdDelegate.h"
-@import GoogleMobileAds;
 #import "GDUtils.h"
+#import "GDstatic.h"
 
 @interface GDAd() <GADInterstitialDelegate,GADBannerViewDelegate>
 
@@ -41,12 +41,12 @@ BOOL bannerActive = false;
 int W_Banner;
 int H_Banner;
 
--(id) init:(NSString *)unitId andContext:(UIViewController *)context{
-    self.unitId = unitId;
+-(id) init:(UIViewController *)context{
+    self.unitId = [GDstatic adUnit];
     self.context = context;
     self.extras = [[NSMutableDictionary alloc] init];
     isApiInitialized = true;
-
+    
     return self;
 }
 
@@ -170,7 +170,6 @@ int H_Banner;
     }
     else{
         NSLog(@"VXAdApi is not initialized.");
-
     }
 }
 
@@ -193,7 +192,6 @@ int H_Banner;
     }
     else{
         NSLog(@"VXAdApi is not initialized.");
-
     }
 }
 
@@ -206,7 +204,6 @@ int H_Banner;
         NSLog(@"VXAdApi is not initialized.");
 
     }
-
 }
 
 -(GDAdDelegate*) delegate{
@@ -234,25 +231,6 @@ int H_Banner;
     else
         return false;
 }
-
-
--(void) addTestDevice:(NSString *)deviceId{
-    self.deviceID = deviceId;
-}
-
--(NSString *) getTestDevice{
-    NSString *uniqueIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-
-    return [GDUtils generateMD5:uniqueIdentifier];
-}
-
-
-//
-//-(void) onBannerReceived:(GDAdDelegate*) sender withData:(NSData*) data{
-//    NSLog(@"Ad received. My delegate is working...");
-//}
-
-// for interstitial ad events
 
 // Called when an interstitial ad request succeeded.
 - (void)interstitialDidReceiveAd:(DFPInterstitial *)ad {
@@ -290,7 +268,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 // Called just before presenting an interstitial.
 - (void)interstitialWillPresentScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillPresentScreen");
-    [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
+   // [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
 }
 
 // Called before the interstitial is to be animated off the screen.

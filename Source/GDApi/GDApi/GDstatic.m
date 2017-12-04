@@ -21,7 +21,7 @@ static NSString* regId;
 static NSString* gameId;
 static NSString* sVersion = @"v1";
 static NSString* PREFS_NAME = @"GDPrefsFile";
-static NSString* adUnit;
+static NSString* adUnit = @"ca-app-pub-3940256099942544/4411468910"; // test unit id
 static NSString* affiliateId;
 static NSString* bannerServerURL;
 static NSString* analyticServerURL;
