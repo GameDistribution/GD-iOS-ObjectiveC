@@ -33,8 +33,6 @@ NSString * BANNER_STARTED = @"onBannerStarted";
 NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 
 GDAdDelegate* eventDelegate;
-
-
 BOOL isApiInitialized = false;
 DFPBannerView *bannerView;
 BOOL bannerActive = false;
@@ -289,9 +287,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitialWillLeaveApplication");
 }
 
-
 // for banner event
-
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(DFPBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
