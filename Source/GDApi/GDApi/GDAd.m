@@ -30,7 +30,6 @@ NSString * BANNER_RECEIVED = @"onBannerReceived";
 NSString * BANNER_FAILED_TO_LOAD = @"onBannerFailedToLoad";
 NSString * BANNER_CLOSED = @"onBannerClosed";
 NSString * BANNER_STARTED = @"onBannerStarted";
-NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 
 GDAdDelegate* eventDelegate;
 BOOL isApiInitialized = false;
@@ -152,13 +151,13 @@ int H_Banner;
 
     if(isApiInitialized){
 
+        if([GDstatic testAds]){
+            self.unitId = [GDstatic testAdUnitID];
+        }
+        
         self.interstitial = [[DFPInterstitial alloc] initWithAdUnitID:self.unitId];
         self.interstitial.delegate = self;
         DFPRequest *request = [DFPRequest request];
-
-        if(self.deviceID != nil){
-            request.testDevices = [NSArray arrayWithObjects:kDFPSimulatorID,self.deviceID,nil];
-        }
 
         if([self.extras count] > 0){
             request.customTargeting = self.extras;
@@ -174,13 +173,10 @@ int H_Banner;
 -(void) requestInterstitialForCordova{
     if(isApiInitialized){
 
-        self.interstitial = [[DFPInterstitial alloc] initWithAdUnitID:cordovaAdxUnitID];
+        self.interstitial = [[DFPInterstitial alloc] initWithAdUnitID:self.unitId];
         self.interstitial.delegate = self;
         DFPRequest *request = [DFPRequest request];
 
-        if(self.deviceID != nil){
-            request.testDevices = [NSArray arrayWithObjects:kDFPSimulatorID,self.deviceID,nil];
-        }
 
         if([self.extras count] > 0){
             request.customTargeting = self.extras;

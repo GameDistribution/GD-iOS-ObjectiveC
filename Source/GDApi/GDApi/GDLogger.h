@@ -27,6 +27,9 @@
 +(void) showBanner:(NSString*) adsize withAlignment:(NSString*) alignment withPosition:(NSString*) position;
 +(void) addEventListener:(GDAdDelegate*) sender;
 +(void) closeBanner;
++(void) enableTestAds:(Boolean) val;
+
+
 @end
 
 #endif /* GDLogger_h */

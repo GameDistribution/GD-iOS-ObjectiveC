@@ -25,6 +25,8 @@ NSMutableArray* elementsArray;
 NSString* currentString;
 Boolean preShowed = false;
 GDAdDelegate* delegate;
+NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
+
 
 +(void) init:(NSString *)gameId andWithRegId:(NSString *)regId
 {
@@ -101,17 +103,10 @@ GDAdDelegate* delegate;
 
 +(void) init:(NSString *)gameId andWithRegId:(NSString *)regId andWithIsPlugin:(Boolean)isPlugin{
     
-    if(gdAPI == nil){
-        
-        if(isPlugin){
-            isCordovaPlugin = true;
-        }
-        [self init:gameId andWithRegId:regId];
-        
+    if(isPlugin){
+        [GDstatic setAdUnit:cordovaAdxUnitID];
     }
-    else{
-        [GDUtils log:@"Api is already initialized!"];
-    }
+    [self init:gameId andWithRegId:regId];
 
 }
 
@@ -120,9 +115,6 @@ GDAdDelegate* delegate;
     if(gdAPI == nil){
         UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         gdAPI = [[GDAd alloc] init:rootViewController];
-    
-        [gdAPI addCustomTargeting:@"apptype" andValue:@"ios"];
-        [gdAPI addCustomTargeting:@"gdp" andValue:@"1"];
         
         if(delegate != nil){
             [gdAPI setDelegate:delegate];
@@ -187,6 +179,10 @@ GDAdDelegate* delegate;
     if(gdAPI != nil){
         [gdAPI setDelegate:delegate];
     }
+}
+
++(void) enableTestAds : (Boolean) val {
+    [GDstatic setTestAds:val];
 }
 
 @end
