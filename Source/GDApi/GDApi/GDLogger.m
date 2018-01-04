@@ -19,14 +19,12 @@
 @implementation GDLogger
 
 static GDAd* gdAPI;
-static NSUserDefaults* cookie;
 static Boolean isCordovaPlugin = false;
 NSMutableArray* elementsArray;
 NSString* currentString;
 Boolean preShowed = false;
 GDAdDelegate* delegate;
 NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
-
 
 +(void) init:(NSString *)gameId andWithRegId:(NSString *)regId
 {
@@ -121,7 +119,8 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
         }
         
         if([GDGameData preRoll]){
-            [gdAPI requestInterstitial];
+          //  [gdAPI requestInterstitial];
+            [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
         }
 
     }
@@ -139,14 +138,23 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 +(void) showBanner:(Boolean)isInterstitial{
     
     if(gdAPI != nil){
+     
         if(isInterstitial){
-            [gdAPI requestInterstitial];
+            if(![GDstatic testAds])
+                [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
+            else
+                [gdAPI requestInterstitial];
+
         }
         else{
-            NSString* defAlignment = CENTER;
-            NSString* defPosition = BOTTOM;
-            NSString* defAdsize = BANNER;
-            [gdAPI requestBanner:defAdsize andAlinment:defAlignment andPositon:defPosition];
+//            NSString* defAlignment = CENTER;
+//            NSString* defPosition = BOTTOM;
+//            NSString* defAdsize = BANNER;
+//            [gdAPI requestBanner:defAdsize andAlinment:defAlignment andPositon:defPosition];
+            if(![GDstatic testAds])
+                [self showAd:false withSize:BANNER withAlignment:CENTER withPosition:BOTTOM];
+            else
+                [gdAPI requestBanner:BANNER andAlinment:CENTER andPositon:BOTTOM];
         }
     }
     else{
@@ -157,10 +165,56 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 +(void) showBanner:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position{
     
     if(gdAPI != nil){
-        [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
+//        [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
+        [self showAd:false withSize:adsize withAlignment:alignment withPosition:position];
     }
     else{
         NSLog(@"Api is not initialized!");
+    }
+}
+
++(void) showAd:(Boolean)isInterstitial withSize:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position{
+    
+    if(gdAPI != nil){
+        NSString *bundleId = @"bundle.test.1";
+        NSString *msize = @"interstitial";
+        
+        if(!isInterstitial){
+            msize = adsize;
+        }
+        
+        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=%@&msize=%@",bundleId,msize];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+          ^(NSData * _Nullable data,
+            NSURLResponse * _Nullable response,
+            NSError * _Nullable error) {
+              
+              if(error == nil){
+                  NSDictionary* res = [NSJSONSerialization JSONObjectWithData:data
+                                                                      options:kNilOptions
+                                                                        error:&error];
+                  if(error == nil){
+                      NSArray *tunnlData = [res objectForKey:@"Items"];
+                      [gdAPI setTunnlData:tunnlData];
+                      
+                      if(isInterstitial){
+                        [gdAPI requestInterstitial];
+                      }
+                      else{
+                        [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
+                      }
+                  }
+                  else{
+                      [GDUtils log:@"Tunnl data is not json."];
+                  }
+              }
+              
+          }] resume];
     }
 }
 
@@ -181,8 +235,8 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
     }
 }
 
-+(void) enableTestAds : (Boolean) val {
-    [GDstatic setTestAds:val];
++(void) enableTestAds {
+    [GDstatic setTestAds:true];
 }
 
 @end

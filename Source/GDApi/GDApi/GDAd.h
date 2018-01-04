@@ -23,6 +23,7 @@
 -(void) destroyBanner;
 -(GDAdDelegate*) delegate;
 -(void) setDelegate:(GDAdDelegate*) del;
+-(void) setTunnlData:(NSArray*) tunnlData;
 @end
 
 

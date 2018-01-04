@@ -11,10 +11,10 @@
 
 @implementation GDAdSize
 
-NSString* const BANNER = @"AdSize.BANNER";
-NSString* const LARGE_BANNER = @"AdSize.LARGE_BANNER";
-NSString* const MEDIUM_RECTANGLE = @"AdSize.MEDIUM_RECTANGLE";
-NSString* const FULL_BANNER =  @"AdSize.FULL_BANNER";
-NSString* const LEADERBOARD = @"AdSize.LEADERBOARD";
+NSString* const BANNER = @"320x50";
+NSString* const LARGE_BANNER = @"320x100";
+NSString* const MEDIUM_RECTANGLE = @"300x250";
+NSString* const FULL_BANNER =  @"468x60";
+NSString* const LEADERBOARD = @"728x90";
 
 @end

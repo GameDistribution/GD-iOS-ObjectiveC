@@ -19,7 +19,6 @@
 @property (nonatomic, strong) NSString *currentElement;
 
 +(GDAd*) gdAPI;
-+(NSUserDefaults*) cookie;
 +(void) init:(NSString*) gameId andWithRegId:(NSString*) regId;
 +(void) init:(NSString*) gameId andWithRegId:(NSString*) regId andWithIsPlugin:(Boolean) isPlugin;
 +(void) debug:(Boolean)val;
@@ -27,8 +26,8 @@
 +(void) showBanner:(NSString*) adsize withAlignment:(NSString*) alignment withPosition:(NSString*) position;
 +(void) addEventListener:(GDAdDelegate*) sender;
 +(void) closeBanner;
-+(void) enableTestAds:(Boolean) val;
-
++(void) enableTestAds;
++(void) showAd:(Boolean)isInterstitial withSize:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position;
 
 @end
 
