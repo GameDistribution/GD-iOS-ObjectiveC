@@ -20,7 +20,6 @@
 
 +(GDAd*) gdAPI;
 +(void) init:(NSString*) gameId andWithRegId:(NSString*) regId;
-+(void) init:(NSString*) gameId andWithRegId:(NSString*) regId andWithIsPlugin:(Boolean) isPlugin;
 +(void) debug:(Boolean)val;
 +(void) showBanner:(Boolean) isInterstitial;
 +(void) showBanner:(NSString*) adsize withAlignment:(NSString*) alignment withPosition:(NSString*) position;

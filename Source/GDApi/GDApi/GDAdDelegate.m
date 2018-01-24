@@ -27,5 +27,11 @@
     else if([event isEqualToString:@"onBannerFailedToLoad"]){
         [self.delegate onBannerFailedToLoad:self withData:data];
     }
+    else if([event isEqualToString:@"onAPINotReady"]){
+        [self.delegate onAPINotReady:self withData:data];
+    }
+    else if([event isEqualToString:@"onAPIReady"]){
+        [self.delegate onAPIReady:self];
+    }
 }
 @end

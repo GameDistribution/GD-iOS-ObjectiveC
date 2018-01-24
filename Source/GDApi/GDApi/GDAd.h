@@ -15,9 +15,8 @@
 
 
 @interface GDAd : NSObject
--(id) init:(UIViewController *) context;
+-(id) init:(UIViewController *) context andWithDelegate:(GDAdDelegate*) eventlistener;
 -(void) requestInterstitial;
--(void) requestInterstitialForCordova;
 -(void) requestBanner: (NSString *) size andAlinment:(NSString*) alignment andPositon:(NSString *)position;
 -(void) addCustomTargeting:(NSString *) tag andValue:(NSString*) value;
 -(void) destroyBanner;

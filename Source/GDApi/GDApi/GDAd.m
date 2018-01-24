@@ -30,6 +30,8 @@ NSString * BANNER_RECEIVED = @"onBannerReceived";
 NSString * BANNER_FAILED_TO_LOAD = @"onBannerFailedToLoad";
 NSString * BANNER_CLOSED = @"onBannerClosed";
 NSString * BANNER_STARTED = @"onBannerStarted";
+NSString * API_NOT_READY = @"onAPINotReady";
+NSString * API_IS_READY = @"onAPIReady";
 
 NSString *bannerTestUnitId = @"/6499/example/banner";
 NSString *interstitialTestUnitId = @"/6499/example/interstitial";
@@ -42,12 +44,15 @@ BOOL bannerActive = false;
 int W_Banner;
 int H_Banner;
 
--(id) init:(UIViewController *)context{
-    self.unitId = [GDstatic adUnit];
+-(id) init:(UIViewController *)context andWithDelegate:(GDAdDelegate*) eventlistener{
+
     self.context = context;
     self.extras = [[NSMutableDictionary alloc] init];
     isApiInitialized = true;
     
+    if(eventlistener != nil){
+        [self setDelegate:eventlistener];
+    }
     return self;
 }
 
@@ -68,7 +73,6 @@ int H_Banner;
             }
         }
         
-
         if(self.unitId != nil){
            
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -190,25 +194,6 @@ int H_Banner;
             [self.interstitial loadRequest:request];
         }
         
-    }
-    else{
-        NSLog(@"VXAdApi is not initialized.");
-    }
-}
-
--(void) requestInterstitialForCordova{
-    if(isApiInitialized){
-
-        self.interstitial = [[DFPInterstitial alloc] initWithAdUnitID:self.unitId];
-        self.interstitial.delegate = self;
-        DFPRequest *request = [DFPRequest request];
-
-
-        if([self.extras count] > 0){
-            request.customTargeting = self.extras;
-        }
-
-        [self.interstitial loadRequest:request];
     }
     else{
         NSLog(@"VXAdApi is not initialized.");

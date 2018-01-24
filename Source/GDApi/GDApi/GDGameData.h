@@ -21,6 +21,8 @@
 +(void) setTitle:(NSString*) val;
 +(int) timeAds;
 +(void) setTimeAds:(int) val;
++(NSString*) bundleId;
++(void) setBundleId:(NSString*) val;
 
 
 @end

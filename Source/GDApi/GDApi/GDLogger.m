@@ -19,27 +19,27 @@
 @implementation GDLogger
 
 static GDAd* gdAPI;
-static Boolean isCordovaPlugin = false;
 NSMutableArray* elementsArray;
 NSString* currentString;
 Boolean preShowed = false;
 GDAdDelegate* delegate;
-NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 
 +(void) init:(NSString *)gameId andWithRegId:(NSString *)regId
 {
-    if(gdAPI == nil){
-        NSString* lowercaseRegId = [regId lowercaseString];
-        NSArray* gameserver = [lowercaseRegId componentsSeparatedByString:@"-"];
+    NSString* lowercaseRegId = [regId lowercaseString];
+    NSArray* gameserver = [lowercaseRegId componentsSeparatedByString:@"-"];
+    
+    if([gameserver count] == 6){
         
-        if([gameserver count] == 6){
-            
-            NSString *targetUrl = [NSString stringWithFormat:@"https://game.api.gamedistribution.com/game/get/%@?domain=test.mobile.ios",gameId];
-            
-            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-            [request setHTTPMethod:@"GET"];
-            [request setURL:[NSURL URLWithString:targetUrl]];
-            
+        NSString *targetUrl = [NSString stringWithFormat:@"%@/%@",[GDstatic GAME_API_URL],gameId];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [self initGDApi];
+        
+        if(![GDstatic testAds]){
             [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
               ^(NSData * _Nullable data,
                 NSURLResponse * _Nullable response,
@@ -53,74 +53,114 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
                           
                           bool success = [res objectForKey:@"success"];
                           if(success){
-                              NSDictionary* _result = [res objectForKey:@"result"];
-                              NSDictionary* game = [_result objectForKey:@"game"];
                               
-                              [GDGameData setEnableAds:[game valueForKey:@"enableAds"]];
-                              [GDGameData setGameMd5:[game valueForKey:@"gameMd5"]];
-                              [GDGameData setpreRoll:[game valueForKey:@"preRoll"]];
-                              [GDGameData setTimeAds:[[game valueForKey:@"timeAds"] intValue]];
-                              [GDGameData setTitle:[game valueForKey:@"title"]];
-                              
-                              [GDstatic setRegId:[NSString stringWithFormat:@"%@-%@-%@-%@-%@",[gameserver objectAtIndex:0],[gameserver objectAtIndex:1],[gameserver objectAtIndex:2],[gameserver objectAtIndex:3],[gameserver objectAtIndex:4]]];
-                              [GDstatic setServerId:[gameserver objectAtIndex:5]];
-                              [GDstatic setGameId:gameId];
-                              [GDstatic setEnable:true];
-                              
-                              [self initGDApi];
-                              [GDUtils log:@"Game Distribution iOS API Init"];
-
+                              @try {
+                                  NSDictionary* _result = [res objectForKey:@"result"];
+                                  NSDictionary* game = [_result objectForKey:@"game"];
+                                  
+                                  [GDGameData setEnableAds:[game valueForKey:@"enableAds"]];
+                                  [GDGameData setGameMd5:[game valueForKey:@"gameMd5"]];
+                                  [GDGameData setpreRoll:[game valueForKey:@"preRoll"]];
+                                  [GDGameData setTimeAds:[[game valueForKey:@"timeAds"] intValue]];
+                                  [GDGameData setTitle:[game valueForKey:@"title"]];
+                                  [GDGameData setBundleId:[game valueForKey:@"iosBundleId"]];
+                                  
+                                  [GDstatic setRegId:[NSString stringWithFormat:@"%@-%@-%@-%@-%@",[gameserver objectAtIndex:0],[gameserver objectAtIndex:1],[gameserver objectAtIndex:2],[gameserver objectAtIndex:3],[gameserver objectAtIndex:4]]];
+                                  [GDstatic setServerId:[gameserver objectAtIndex:5]];
+                                  [GDstatic setGameId:gameId];
+                                  [GDstatic setEnable:true];
+                                  
+                                  if([self gdAPI].delegate != nil){
+                                      [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+                                  }
+                                  
+                                  
+                              }
+                              @catch (NSException *exception) {
+                                  gdAPI = nil;
+                                  if([self gdAPI].delegate != nil){
+                                      
+                                      NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                                      NSArray *objects = [NSArray arrayWithObjects: @"Something wrong with parsing game data.", nil];
+                                      NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                                         forKeys:keys];
+                                      NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                                      
+                                      [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                                  }
+                              }
                               
                           }
                           else{
-                              NSString *myData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                              [GDUtils log:@"Something went wrong parsing json game data."];
-                              [GDUtils log:myData];
+                              NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                              [GDUtils log:@"Something went wrong fetching game data."];
+                              [GDUtils log:errorStr];
+                              
+                              gdAPI = nil;
+
+                              if([self gdAPI].delegate != nil){
+                                  
+                                  NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                                  NSArray *objects = [NSArray arrayWithObjects: errorStr, nil];
+                                  NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                                     forKeys:keys];
+                                  NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                                  
+                                  [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                              }
                           }
                       }
                       else{
-                          [GDUtils log:@"Gama data is not json."];
+                          [GDUtils log:@"Gama data is not available."];
+
+                          gdAPI = nil;
+                          if([self gdAPI].delegate != nil){
+                              
+                              NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                              NSArray *objects = [NSArray arrayWithObjects:@"Gama data is not available.", nil];
+                              NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                                 forKeys:keys];
+                              NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                              
+                              [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                          }
                       }
                       
                   }
                   
               }] resume];
-            
-                        
-            
         }
         else{
-            NSLog(@"RegID is not valid.");
+            if([self gdAPI].delegate != nil){
+                [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+            }
         }
+        
     }
     else{
-        [GDUtils log:@"Api is already initialized!"];
+        NSLog(@"RegID is not valid.");
+        
+        if([self gdAPI].delegate != nil){
+            
+            NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+            NSArray *objects = [NSArray arrayWithObjects: @"RegID is not valid.", nil];
+            NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                               forKeys:keys];
+            NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+            
+            [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+        }
     }
     
 }
-
-+(void) init:(NSString *)gameId andWithRegId:(NSString *)regId andWithIsPlugin:(Boolean)isPlugin{
-    
-    if(isPlugin){
-        [GDstatic setAdUnit:cordovaAdxUnitID];
-    }
-    [self init:gameId andWithRegId:regId];
-
-}
-
 
 +(void) initGDApi{
     if(gdAPI == nil){
-        UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        gdAPI = [[GDAd alloc] init:rootViewController];
-        
-        if(delegate != nil){
-            [gdAPI setDelegate:delegate];
-        }
+        UIViewController *rootViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        gdAPI = [[GDAd alloc] init:rootViewController andWithDelegate:delegate];
         
         if([GDGameData preRoll]){
-          //  [gdAPI requestInterstitial];
-            [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
+            [gdAPI requestInterstitial];
         }
 
     }
@@ -147,10 +187,6 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 
         }
         else{
-//            NSString* defAlignment = CENTER;
-//            NSString* defPosition = BOTTOM;
-//            NSString* defAdsize = BANNER;
-//            [gdAPI requestBanner:defAdsize andAlinment:defAlignment andPositon:defPosition];
             if(![GDstatic testAds])
                 [self showAd:false withSize:BANNER withAlignment:CENTER withPosition:BOTTOM];
             else
@@ -165,7 +201,6 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 +(void) showBanner:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position{
     
     if(gdAPI != nil){
-//        [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
         [self showAd:false withSize:adsize withAlignment:alignment withPosition:position];
     }
     else{
@@ -229,10 +264,6 @@ NSString * cordovaAdxUnitID = @"ca-mb-app-pub-5192618204358860/8119020012";
 
 +(void) addEventListener:(GDAdDelegate *)sender{
     delegate = sender;
-    
-    if(gdAPI != nil){
-        [gdAPI setDelegate:delegate];
-    }
 }
 
 +(void) enableTestAds {

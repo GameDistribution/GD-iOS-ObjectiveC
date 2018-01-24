@@ -16,6 +16,7 @@ static NSString* gameMd5;
 static bool enableAds;
 static bool preRoll;
 static int timeAds;
+static NSString* bundleId;
 
 
 
@@ -40,6 +41,13 @@ static int timeAds;
     gameMd5 = val;
 }
 
++(NSString*) bundleId{
+    return bundleId;
+}
++(void) setBundleId:(NSString *)val{
+    bundleId = val;
+}
+
 +(NSString*) title{
     return title;
 }
@@ -53,5 +61,7 @@ static int timeAds;
 +(void) setTimeAds:(int) val{
     timeAds = val;
 }
+
+
 
 @end
