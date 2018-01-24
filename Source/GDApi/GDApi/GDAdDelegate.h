@@ -17,6 +17,8 @@
 -(void) onBannerStarted:(GDAdDelegate*) sender;
 -(void) onBannerClosed:(GDAdDelegate*) sender;
 -(void) onBannerFailedToLoad:(GDAdDelegate*) sender withData:(NSData*) data;
+-(void) onAPINotReady:(GDAdDelegate*) sender withData:(NSData*) data;
+-(void) onAPIReady:(GDAdDelegate*) sender;
 
 @end
 

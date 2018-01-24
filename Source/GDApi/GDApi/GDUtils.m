@@ -20,25 +20,6 @@
 
 int static counter = 0;
 
-+(NSString*) getSessionId{
-    
-    NSDate* sid1 = [NSDate date];
-    srand(time(NULL));
-    int sid2 = rand();
-    NSString *sid = [NSString stringWithFormat:@"%@%d%d",sid1,sid2,counter++];
-    
-    return [self generateMD5:sid];
-}
-
-+(void) setCookie:(NSString *)key andValue:(NSObject*) value{
-    [[GDLogger cookie] setObject:value forKey:key];
-    [[GDLogger cookie] synchronize];
-}
-
-+(NSObject*) getCookie:(NSString*) key{
-    return [[GDLogger cookie] objectForKey:key];
-}
-
 +(void) log:(NSString *)str{
     NSLog(@"GD: %@",str);
 }
@@ -46,30 +27,6 @@ int static counter = 0;
 +(NSString*) getBannerServerURL{    
     NSString* url = [[NSString alloc] initWithFormat:@"http://%@.bn.submityourgame.com/%@.xml?ver=800&url=http://www.gamedistribution.com",[GDstatic serverId],[GDstatic gameId]];
     return url;
-}
-
-+(NSString*) getAnalyticServerURL{
-    NSString* url = [[NSString alloc] initWithFormat:@"http://%@.%@.submityourgame.com/%@/",[GDstatic regId],[GDstatic serverId],[GDstatic sVersion]];
-    return url;
-}
-
-+(NSString*) generateMD5:(NSString *)str{
-        const char *cStr = [str UTF8String];
-        unsigned char result[CC_MD5_DIGEST_LENGTH];
-    
-        CC_MD5( cStr, strlen(cStr), result );
-    
-        return [NSString
-                 stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
-                 result[0], result[1],
-                 result[2], result[3],
-                 result[4], result[5],
-                 result[6], result[7],
-                 result[8], result[9],
-                 result[10], result[11],
-                 result[12], result[13],
-                 result[14], result[15]
-                 ];
 }
 
 +(NSString*) objectToJSONString:(NSObject*)obj{
@@ -101,10 +58,6 @@ int static counter = 0;
         
         jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\n"
                                                           withString:@""];
-//        
-//        jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\"
-//                                                           withString:@"reha"];
-
         return jsonString;
         
     }

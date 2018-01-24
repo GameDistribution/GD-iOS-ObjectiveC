@@ -16,12 +16,15 @@ static float apiVersion = (float) 1.0;
 static NSString* version = @"v1.0";
 static Boolean enable = false;
 static Boolean debug = false;
+static Boolean testAds = false;
 static NSString* serverId;
 static NSString* regId;
 static NSString* gameId;
 static NSString* sVersion = @"v1";
 static NSString* PREFS_NAME = @"GDPrefsFile";
-static NSString* adUnit;
+static NSString* adUnit = @"ca-app-pub-3940256099942544/4411468910"; // test unit id
+static NSString* testAdUnit = @"ca-app-pub-3940256099942544/4411468910"; // test unit id
+static NSString* GAME_API_URL = @"https://game.api.gamedistribution.com/game/get";
 static NSString* affiliateId;
 static NSString* bannerServerURL;
 static NSString* analyticServerURL;
@@ -50,6 +53,12 @@ static NSString* analyticServerURL;
 }
 +(void) setEnable:(Boolean)val{
     enable = val;
+}
++(Boolean) testAds{
+    return testAds;
+}
++(void) setTestAds:(Boolean)val{
+    testAds = val;
 }
 +(Boolean) debug{
     return debug;
@@ -87,12 +96,23 @@ static NSString* analyticServerURL;
 +(void) setAdUnit:(NSString *)val{
     adUnit = val;
 }
++(NSString*) testAdUnitID{
+    return testAdUnit;
+}
++(void) setTestAdUnitID:(NSString *)val{
+    testAdUnit = val;
+}
 +(NSString*) affiliateId{
     return affiliateId;
 }
 +(void) setAffiliateId:(NSString *)val{
     affiliateId = val;
 }
-
++(NSString*) GAME_API_URL{
+    return GAME_API_URL;
+}
++(void) setGAME_API_URL:(NSString *)val{
+    GAME_API_URL = val;
+}
 
 @end

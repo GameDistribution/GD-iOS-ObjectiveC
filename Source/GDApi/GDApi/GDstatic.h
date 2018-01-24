@@ -11,28 +11,27 @@
 
 @interface GDstatic : NSObject
 
-+(float) apiVersion;
-+(NSString*) version;
 +(Boolean) enable;
 +(void) setEnable:(Boolean) val;
 +(Boolean) debug;
 +(void) setDebug:(Boolean) val;
++(Boolean) testAds;
++(void) setTestAds:(Boolean) val;
 +(NSString*) serverId;
 +(void) setServerId:(NSString*) val;
 +(NSString*)regId;
 +(void) setRegId:(NSString*) val;
 +(NSString*) gameId;
 +(void) setGameId:(NSString*) val;
-+(NSString*) sVersion;
-+(NSString*) PREFS_NAME;
 +(NSString*) adUnit;
 +(void) setAdUnit:(NSString*) val;
++(NSString*) testAdUnitID;
++(void) setTestAdUnitID:(NSString*) val;
 +(NSString*) affiliateId;
 +(void) setAffiliateId:(NSString*) val;
-+(NSString*) bannerServerURL;
-+(void) setBannerServerURL:(NSString*)val;
-+(NSString*) analyticServerURL;
-+(void) setAnalyticServerURL:(NSString*)val;
++(NSString*) GAME_API_URL;
++(void) setGAME_API_URL:(NSString*)val;
+
 
 @end
 #endif /* GDstatic_h */

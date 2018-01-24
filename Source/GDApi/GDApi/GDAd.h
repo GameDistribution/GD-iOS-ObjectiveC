@@ -15,16 +15,14 @@
 
 
 @interface GDAd : NSObject
--(id) init:(NSString *) unitId andContext: (UIViewController *) context;
+-(id) init:(UIViewController *) context andWithDelegate:(GDAdDelegate*) eventlistener;
 -(void) requestInterstitial;
--(void) requestInterstitialForCordova;
 -(void) requestBanner: (NSString *) size andAlinment:(NSString*) alignment andPositon:(NSString *)position;
 -(void) addCustomTargeting:(NSString *) tag andValue:(NSString*) value;
--(void) addTestDevice:(NSString *)deviceId;
 -(void) destroyBanner;
--(NSString *) getTestDevice;
 -(GDAdDelegate*) delegate;
 -(void) setDelegate:(GDAdDelegate*) del;
+-(void) setTunnlData:(NSArray*) tunnlData;
 @end
 
 

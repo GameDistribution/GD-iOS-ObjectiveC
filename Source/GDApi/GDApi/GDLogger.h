@@ -8,7 +8,6 @@
 
 #ifndef GDLogger_h
 #define GDLogger_h
-#import "GDSendObject.h"
 #import "GDAd.h"
 
 @interface GDLogger :NSObject
@@ -20,23 +19,15 @@
 @property (nonatomic, strong) NSString *currentElement;
 
 +(GDAd*) gdAPI;
-+(NSUserDefaults*) cookie;
 +(void) init:(NSString*) gameId andWithRegId:(NSString*) regId;
-+(void) init:(NSString*) gameId andWithRegId:(NSString*) regId andWithIsPlugin:(Boolean) isPlugin;
-+(NSNumber*)incVisit;
-+(void) visit;
-+(GDSendObject*) ping;
 +(void) debug:(Boolean)val;
-+(void) play;
-+(void) customlog:(NSString*)key;
-+(NSNumber*) incPlay;
-+(void) getXMLData:(NSString *)reqUrl;
 +(void) showBanner:(Boolean) isInterstitial;
 +(void) showBanner:(NSString*) adsize withAlignment:(NSString*) alignment withPosition:(NSString*) position;
-+(void) addTestDevice:(NSString*) deviceID;
-+(NSString*) getTestDevice;
 +(void) addEventListener:(GDAdDelegate*) sender;
 +(void) closeBanner;
++(void) enableTestAds;
++(void) showAd:(Boolean)isInterstitial withSize:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position;
+
 @end
 
 #endif /* GDLogger_h */

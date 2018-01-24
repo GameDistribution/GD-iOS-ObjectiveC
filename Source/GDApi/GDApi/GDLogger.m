@@ -8,88 +8,161 @@
 #import <Foundation/Foundation.h>
 #import "GDLogger.h"
 #import "GDstatic.h"
-#import "GDlogchannel.h"
 #import "GDUtils.h"
-#import "GDLogRequest.h"
-#import "GDcustomLog.h"
-#import "GDbannerData.h"
 #import "GDAd.h"
 #import "GDAdPosition.h"
 #import "GDAlignment.h"
 #import "GDAdSize.h"
 #import "GDAdDelegate.h"
+#import "GDGameData.h"
 
 @implementation GDLogger
 
 static GDAd* gdAPI;
-static NSUserDefaults* cookie;
-static Boolean isCordovaPlugin = false;
 NSMutableArray* elementsArray;
 NSString* currentString;
-GDbannerData* bannerData;
 Boolean preShowed = false;
 GDAdDelegate* delegate;
 
 +(void) init:(NSString *)gameId andWithRegId:(NSString *)regId
 {
-    if(gdAPI == nil){
-        NSString* lowercaseRegId = [regId lowercaseString];
-        NSArray* gameserver = [lowercaseRegId componentsSeparatedByString:@"-"];
+    NSString* lowercaseRegId = [regId lowercaseString];
+    NSArray* gameserver = [lowercaseRegId componentsSeparatedByString:@"-"];
+    
+    if([gameserver count] == 6){
         
-        if([gameserver count] == 6){
-            [GDstatic setRegId:[NSString stringWithFormat:@"%@-%@-%@-%@-%@",[gameserver objectAtIndex:0],[gameserver objectAtIndex:1],
-                                [gameserver objectAtIndex:2],[gameserver objectAtIndex:3],[gameserver objectAtIndex:4]]];
-            [GDstatic setServerId:[gameserver objectAtIndex:5]];
-            [GDstatic setGameId:gameId];
-            [GDstatic setEnable:true];
-            
-            [self visit];
-            
-            [GDlogchannel init];
-            [GDUtils log:@"Game Distribution iOS API Init"];
-            [self getXMLData:[GDUtils getBannerServerURL]];
-            
-            
-            cookie = [[NSUserDefaults alloc] init];
+        NSString *targetUrl = [NSString stringWithFormat:@"%@/%@",[GDstatic GAME_API_URL],gameId];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [self initGDApi];
+        
+        if(![GDstatic testAds]){
+            [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+              ^(NSData * _Nullable data,
+                NSURLResponse * _Nullable response,
+                NSError * _Nullable error) {
+                  
+                  if(error == nil){
+                      NSDictionary* res = [NSJSONSerialization JSONObjectWithData:data
+                                                                          options:kNilOptions
+                                                                            error:&error];
+                      if(error == nil){
+                          
+                          bool success = [res objectForKey:@"success"];
+                          if(success){
+                              
+                              @try {
+                                  NSDictionary* _result = [res objectForKey:@"result"];
+                                  NSDictionary* game = [_result objectForKey:@"game"];
+                                  
+                                  [GDGameData setEnableAds:[game valueForKey:@"enableAds"]];
+                                  [GDGameData setGameMd5:[game valueForKey:@"gameMd5"]];
+                                  [GDGameData setpreRoll:[game valueForKey:@"preRoll"]];
+                                  [GDGameData setTimeAds:[[game valueForKey:@"timeAds"] intValue]];
+                                  [GDGameData setTitle:[game valueForKey:@"title"]];
+                                  [GDGameData setBundleId:[game valueForKey:@"iosBundleId"]];
+                                  
+                                  [GDstatic setRegId:[NSString stringWithFormat:@"%@-%@-%@-%@-%@",[gameserver objectAtIndex:0],[gameserver objectAtIndex:1],[gameserver objectAtIndex:2],[gameserver objectAtIndex:3],[gameserver objectAtIndex:4]]];
+                                  [GDstatic setServerId:[gameserver objectAtIndex:5]];
+                                  [GDstatic setGameId:gameId];
+                                  [GDstatic setEnable:true];
+                                  
+                                  if([self gdAPI].delegate != nil){
+                                      [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+                                  }
+                                  
+                                  
+                              }
+                              @catch (NSException *exception) {
+                                  gdAPI = nil;
+                                  if([self gdAPI].delegate != nil){
+                                      
+                                      NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                                      NSArray *objects = [NSArray arrayWithObjects: @"Something wrong with parsing game data.", nil];
+                                      NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                                         forKeys:keys];
+                                      NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                                      
+                                      [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                                  }
+                              }
+                              
+                          }
+                          else{
+                              NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                              [GDUtils log:@"Something went wrong fetching game data."];
+                              [GDUtils log:errorStr];
+                              
+                              gdAPI = nil;
+
+                              if([self gdAPI].delegate != nil){
+                                  
+                                  NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                                  NSArray *objects = [NSArray arrayWithObjects: errorStr, nil];
+                                  NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                                     forKeys:keys];
+                                  NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                                  
+                                  [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                              }
+                          }
+                      }
+                      else{
+                          [GDUtils log:@"Gama data is not available."];
+
+                          gdAPI = nil;
+                          if([self gdAPI].delegate != nil){
+                              
+                              NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                              NSArray *objects = [NSArray arrayWithObjects:@"Gama data is not available.", nil];
+                              NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                                 forKeys:keys];
+                              NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                              
+                              [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                          }
+                      }
+                      
+                  }
+                  
+              }] resume];
         }
         else{
-            NSLog(@"RegID is not valid.");
+            if([self gdAPI].delegate != nil){
+                [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+            }
         }
-    }
-    else{
-        [GDUtils log:@"Api is already initialized!"];
-    }
-    
-}
-
-+(void) init:(NSString *)gameId andWithRegId:(NSString *)regId andWithIsPlugin:(Boolean)isPlugin{
-    
-    if(gdAPI == nil){
-        
-        if(isPlugin){
-            isCordovaPlugin = true;
-        }
-        [self init:gameId andWithRegId:regId];
         
     }
     else{
-        [GDUtils log:@"Api is already initialized!"];
+        NSLog(@"RegID is not valid.");
+        
+        if([self gdAPI].delegate != nil){
+            
+            NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+            NSArray *objects = [NSArray arrayWithObjects: @"RegID is not valid.", nil];
+            NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                               forKeys:keys];
+            NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+            
+            [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+        }
     }
-
+    
 }
-
 
 +(void) initGDApi{
     if(gdAPI == nil){
-        UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-        gdAPI = [[GDAd alloc] init:[[GDstatic adUnit] stringByAppendingString:[GDstatic affiliateId]]   andContext:rootViewController];
-    
-        [gdAPI addCustomTargeting:@"apptype" andValue:@"ios"];
-        [gdAPI addCustomTargeting:@"gdp" andValue:@"1"];
+        UIViewController *rootViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        gdAPI = [[GDAd alloc] init:rootViewController andWithDelegate:delegate];
         
-        if(delegate != nil){
-            [gdAPI setDelegate:delegate];
+        if([GDGameData preRoll]){
+            [gdAPI requestInterstitial];
         }
+
     }
 
 }
@@ -98,206 +171,26 @@ GDAdDelegate* delegate;
     return gdAPI;
 }
 
-+(NSUserDefaults*) cookie{
-    return cookie;
-}
-
-+(NSNumber*) incVisit{
-    NSNumber* visit = (NSNumber*)[GDUtils getCookie:@"visit"];
-    visit =@([visit intValue]+1);
-    [GDUtils setCookie:@"visit" andValue:visit];
-    return visit;
-    
-}
-
-+(void) visit{
-    if([GDstatic enable]){
-        GDSendObject* sendObj = [[GDSendObject alloc] init];
-        sendObj.action =@"visit";
-        sendObj.value = [self incVisit];
-        NSNumber* tmp = (NSNumber*)[GDUtils getCookie:@"state"];
-        if(tmp == nil){
-            sendObj.state = [NSNumber numberWithInt:0];
-        }
-        else{
-            sendObj.state = tmp;
-        }
-        [GDLogRequest pushLog:sendObj];
-    }
-}
-
-+(void) play{
-    if([GDstatic enable]){
-        GDSendObject* sendObj = [[GDSendObject alloc] init];
-        sendObj.action =@"play";
-        sendObj.value = [self incPlay];
-        [GDLogRequest pushLog:sendObj];
-    }
-}
-
-+(NSNumber*) incPlay{
-    NSNumber* play = (NSNumber*)[GDUtils getCookie:@"play"];
-    play =@([play intValue]+1);
-    [GDUtils setCookie:@"play" andValue:play];
-    return play;
-
-}
-
-+(void) customlog:(NSString *)key{
-    if([GDstatic enable]){
-        if(![key  isEqualToString: @"play"] || ![key isEqualToString:@"visit"]){
-            NSNumber* customValue = (NSNumber*)[GDUtils getCookie:key];
-            if(customValue == nil){
-                customValue = @1;
-                [GDUtils setCookie:key andValue:customValue];
-            }
-            
-            GDSendObject* sendObj = [[GDSendObject alloc] init];
-            sendObj.action = @"custom";
-            sendObj.value = [[GDcustomLog alloc] initWithKeyValue:key andWithValue:customValue];
-            sendObj.state = @0; // initial
-            [GDLogRequest pushLog:sendObj];
-        }
-    }
-}
-
-+(GDSendObject*)ping{
-    if([GDstatic enable]){
-        GDSendObject* sendObj = [[GDSendObject alloc] init];
-        sendObj.action = @"ping";
-        sendObj.value =  @"ping";
-        return sendObj;
-    }
-    return nil;
-}
-
 +(void) debug:(Boolean)val{
     [GDstatic setDebug:true];
 }
 
-+(void) getXMLData:(NSString *)reqUrl{
-    NSURL *url = [NSURL URLWithString:reqUrl];
-
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-                                            completionHandler:
-            ^(NSData *data, NSURLResponse *response, NSError *error) {
-                
-                if( data != nil && error ==nil){
-                    NSXMLParser* xmlParser = [[NSXMLParser alloc] initWithData:data];//init NSXMLParser with receivedXMLData
-                    
-                    bannerData = [[GDbannerData alloc] init];
-                    [xmlParser setDelegate:self]; // Set delegate for NSXMLParser
-                    [xmlParser parse]; //Start parsing
-
-                }
-                                      
-            }];
-
-    [task resume];
-}
-
-+(void)parserDidStartDocument:(NSXMLParser *)parser
-{
-    elementsArray = [[NSMutableArray alloc] init];
-}
-
-//store all found characters between elements in currentString mutable string
-+(void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
-{
-    if(!currentString)
-    {
-        currentString = [[NSString alloc] init];
-    }
-    currentString = string;
-}
-
-//When end of XML tag is found this method gets notified
-+(void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
-{
-    
-    if([elementName isEqualToString:@"tim"])
-    {
-        bannerData.timeOut = [currentString intValue];
-        return;
-    }
-    if([elementName isEqualToString:@"act"])
-    {
-        bannerData.enable = [currentString intValue] || 0;
-        [GDstatic setEnable:bannerData.enable];
-        return;
-    }
-    if([elementName isEqualToString:@"pre"])
-    {
-        bannerData.pre = [currentString intValue] || 0;
-        return;
-    }
-
-//    if([elementName isEqualToString:@"sat"])
-//    {
-//        bannerData.showAfterTimeout = (int) currentString;
-//        
-//        return;
-//    }
-    if([elementName isEqualToString:@"andver"])
-    {
-        bannerData.apiVersion = [currentString floatValue];
-        
-        return;
-    }
-    if([elementName isEqualToString:@"aid"])
-    {
-        bannerData.affiliateId = currentString;
-        [GDstatic setAffiliateId:currentString];
-        return;
-    }
-    if([elementName isEqualToString:@"iosadu"])
-    {
-        bannerData.adUnit = currentString;
-        [GDstatic setAdUnit:currentString];
-        return;
-    }
-}
-
-//Parsing has ended
-+ (void)parserDidEndDocument:(NSXMLParser *)parser
-{
-    if(gdAPI == nil){
-        [self initGDApi]; // initialize GDApi
-        NSLog(@"Api is initialized.");
-    }
-    
-    if(bannerData.pre && !preShowed){
-        if(isCordovaPlugin){
-            [gdAPI requestInterstitialForCordova];
-        }
-        else{
-            [gdAPI requestInterstitial];
-        }
-        
-        preShowed = true;
-    }
-}
-
-+ (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
-{
-    [parseError localizedDescription];
-}
-
-
 +(void) showBanner:(Boolean)isInterstitial{
     
     if(gdAPI != nil){
+     
         if(isInterstitial){
-            [gdAPI requestInterstitial];
+            if(![GDstatic testAds])
+                [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
+            else
+                [gdAPI requestInterstitial];
+
         }
         else{
-            NSString* defAlignment = CENTER;
-            NSString* defPosition = BOTTOM;
-            NSString* defAdsize = BANNER;
-            [gdAPI requestBanner:defAdsize andAlinment:defAlignment andPositon:defPosition];
+            if(![GDstatic testAds])
+                [self showAd:false withSize:BANNER withAlignment:CENTER withPosition:BOTTOM];
+            else
+                [gdAPI requestBanner:BANNER andAlinment:CENTER andPositon:BOTTOM];
         }
     }
     else{
@@ -308,19 +201,55 @@ GDAdDelegate* delegate;
 +(void) showBanner:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position{
     
     if(gdAPI != nil){
-        [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
+        [self showAd:false withSize:adsize withAlignment:alignment withPosition:position];
     }
     else{
         NSLog(@"Api is not initialized!");
     }
 }
-+(void) addTestDevice:(NSString *)deviceID{
+
++(void) showAd:(Boolean)isInterstitial withSize:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position{
     
     if(gdAPI != nil){
-        [gdAPI addTestDevice:deviceID];
-    }
-    else{
-        NSLog(@"Api is not initialized!");
+        NSString *bundleId = @"bundle.test.1";
+        NSString *msize = @"interstitial";
+        
+        if(!isInterstitial){
+            msize = adsize;
+        }
+        
+        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=%@&msize=%@",bundleId,msize];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+          ^(NSData * _Nullable data,
+            NSURLResponse * _Nullable response,
+            NSError * _Nullable error) {
+              
+              if(error == nil){
+                  NSDictionary* res = [NSJSONSerialization JSONObjectWithData:data
+                                                                      options:kNilOptions
+                                                                        error:&error];
+                  if(error == nil){
+                      NSArray *tunnlData = [res objectForKey:@"Items"];
+                      [gdAPI setTunnlData:tunnlData];
+                      
+                      if(isInterstitial){
+                        [gdAPI requestInterstitial];
+                      }
+                      else{
+                        [gdAPI requestBanner:adsize andAlinment:alignment andPositon:position];
+                      }
+                  }
+                  else{
+                      [GDUtils log:@"Tunnl data is not json."];
+                  }
+              }
+              
+          }] resume];
     }
 }
 
@@ -333,23 +262,12 @@ GDAdDelegate* delegate;
     }
 }
 
-+(NSString*) getTestDevice{
-    
-    if(gdAPI != nil){
-        return [gdAPI getTestDevice];
-    }
-    else{
-        NSLog(@"Api is not initialized!");
-        return nil;
-    }
-}
-
 +(void) addEventListener:(GDAdDelegate *)sender{
     delegate = sender;
-    
-    if(gdAPI != nil){
-        [gdAPI setDelegate:delegate];
-    }
+}
+
++(void) enableTestAds {
+    [GDstatic setTestAds:true];
 }
 
 @end
