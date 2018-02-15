@@ -17,7 +17,7 @@
 @interface GDAd() <GADInterstitialDelegate,GADBannerViewDelegate>
 
 @property(nonatomic,strong) NSString *unitId;
-@property(nonatomic,strong) NSDictionary *extras;
+@property(nonatomic,strong) NSMutableArray *extras;
 @property(nonatomic,strong) UIViewController *context;
 @property(nonatomic, strong) DFPInterstitial *interstitial;
 @property(nonatomic, strong) NSString *deviceID;
@@ -45,9 +45,8 @@ int W_Banner;
 int H_Banner;
 
 -(id) init:(UIViewController *)context andWithDelegate:(GDAdDelegate*) eventlistener{
-
+    
     self.context = context;
-    self.extras = [[NSMutableDictionary alloc] init];
     isApiInitialized = true;
     
     if(eventlistener != nil){
@@ -69,12 +68,13 @@ int H_Banner;
             currentTunnlDataInd++;
             if(currentTunnlDataInd < [tunnlDatas count]){
                 self.unitId = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Adu"];
-                self.extras = (NSDictionary*)[[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"CustomParams"];
+                self.extras = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"CustomParams"];
+                
             }
         }
         
         if(self.unitId != nil){
-           
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 float X_Co;
@@ -147,28 +147,34 @@ int H_Banner;
                 [self.context.view addSubview:bannerView];
                 DFPRequest *request = [DFPRequest request];
                 
+                NSMutableDictionary* customTargets = [[NSMutableDictionary alloc] init];
                 if([self.extras count] > 0){
-                    request.customTargeting = self.extras;
+                    
+                    for( int i=0; i< [self.extras count]; i++ ){
+                        NSMutableDictionary* tmpDic = (NSMutableDictionary*) [self.extras objectAtIndex:i];
+                        [customTargets setValue:[tmpDic valueForKey:@"Value"] forKey:[tmpDic valueForKey:@"Key"]];
+                    }
+                    request.customTargeting = customTargets;
                 }
                 
                 [bannerView loadRequest:request];
             });
-    
+            
             
         }
-
-       
+        
+        
     }
     else{
         NSLog(@"VXAdApi is not initialized.");
     }
-
+    
 }
 
 -(void) requestInterstitial{
-
+    
     if(isApiInitialized){
-
+        
         self.unitId = nil;
         self.extras = nil;
         
@@ -179,7 +185,7 @@ int H_Banner;
             currentTunnlDataInd++;
             if(currentTunnlDataInd < [tunnlDatas count]){
                 self.unitId = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Adu"];
-                self.extras = (NSDictionary*)[[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"CustomParams"];
+                self.extras = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"CustomParams"];
             }
         }
         
@@ -188,8 +194,14 @@ int H_Banner;
             self.interstitial.delegate = self;
             DFPRequest *request = [DFPRequest request];
             
+            NSMutableDictionary* customTargets = [[NSMutableDictionary alloc] init];
             if([self.extras count] > 0){
-                request.customTargeting = self.extras;
+                
+                for( int i=0; i< [self.extras count]; i++ ){
+                    NSMutableDictionary* tmpDic = (NSMutableDictionary*) [self.extras objectAtIndex:i];
+                    [customTargets setValue:[tmpDic valueForKey:@"Value"] forKey:[tmpDic valueForKey:@"Key"]];
+                }
+                request.customTargeting = customTargets;
             }
             [self.interstitial loadRequest:request];
         }
@@ -201,13 +213,13 @@ int H_Banner;
 }
 
 -(void) destroyBanner{
-
+    
     if(isApiInitialized){
         bannerView.hidden = YES;
     }
     else{
         NSLog(@"VXAdApi is not initialized.");
-
+        
     }
 }
 
@@ -216,7 +228,7 @@ int H_Banner;
 }
 
 -(void) setDelegate:(GDAdDelegate *)del{
-
+    
     eventDelegate = [[GDAdDelegate alloc] init];
     eventDelegate.delegate = del;
 }
@@ -224,7 +236,6 @@ int H_Banner;
 -(void) setTunnlData:(NSArray *)tunnlData{
     tunnlDatas = tunnlData;
 }
-
 
 -(void) addCustomTargeting:(NSString *)tag andValue:(NSString *)value{
     if(isApiInitialized){
@@ -244,20 +255,37 @@ int H_Banner;
 
 // Called when an interstitial ad request succeeded.
 - (void)interstitialDidReceiveAd:(DFPInterstitial *)ad {
+    
     NSLog(@"interstitialDidReceiveAd");
+    
+    // inform tunnl we got ad
+    NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Imp"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:targetUrl]];
+    
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+      ^(NSData * _Nullable data,
+        NSURLResponse * _Nullable response,
+        NSError * _Nullable error) {
+          
+          NSLog(@"imp");
+          
+      }] resume];
+    
     currentTunnlDataInd = -1; // reset index for further requests
-
+    
     if (self.interstitial.isReady) {
         [self.interstitial presentFromRootViewController:self.context];
-
+        
         NSArray *keys = [NSArray arrayWithObjects:@"adType",@"width",@"height", nil];
         NSArray *objects = [NSArray arrayWithObjects:@"Interstitial",@"-1",@"-1", nil];
         NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                            forKeys:keys];
         NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-
+        
         [eventDelegate dispatchEvent:BANNER_RECEIVED withData:eventData];
-    
+        
     } else {
         NSLog(@"Ad wasn't ready");
     }
@@ -268,11 +296,26 @@ int H_Banner;
 didFailToReceiveAdWithError:(GADRequestError *)error {
     
     NSLog(@"interstitial:didFailToReceiveAdWithError: %@", [error localizedDescription]);
-
+    
     if(currentTunnlDataInd < ([tunnlDatas count] - 1 )){
         [self requestInterstitial];
     }
     else{
+        
+        // inform tunnl we failed
+        NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Err"];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+          ^(NSData * _Nullable data,
+            NSURLResponse * _Nullable response,
+            NSError * _Nullable error) {
+              
+              NSLog(@"imp error");
+              
+          }] resume];
         
         tunnlDatas = nil ; // set nil fur further ad requests.
         currentTunnlDataInd = -1;
@@ -284,19 +327,20 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
         
         [eventDelegate dispatchEvent:BANNER_FAILED_TO_LOAD withData:eventData];
+        
     }
 }
 
 // Called just before presenting an interstitial.
 - (void)interstitialWillPresentScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillPresentScreen");
-   // [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
+    // [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
 }
 
 // Called before the interstitial is to be animated off the screen.
 - (void)interstitialWillDismissScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillDismissScreen");
-
+    
 }
 
 // Called just after dismissing an interstitial and it has animated off the screen.
@@ -315,21 +359,37 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(DFPBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
-
+    
+    // inform tunnl we got ad
+    NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Imp"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:targetUrl]];
+    
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+      ^(NSData * _Nullable data,
+        NSURLResponse * _Nullable response,
+        NSError * _Nullable error) {
+          
+          NSLog(@"imp");
+          
+      }] resume];
+    
+    
     currentTunnlDataInd = -1; // reset index for further requests
-
+    
     NSString* width; NSString* height;
     width = [NSString stringWithFormat:@"%d",W_Banner];
     height =[NSString stringWithFormat:@"%d",H_Banner];
-
+    
     NSArray *keys = [NSArray arrayWithObjects:@"adType",@"width",@"height", nil];
     NSArray *objects = [NSArray arrayWithObjects:@"Banner",width,height, nil];
     NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                        forKeys:keys];
     NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-
+    
     [eventDelegate dispatchEvent:BANNER_RECEIVED withData:eventData];
-
+    
 }
 
 // Tells the delegate an ad request failed.
@@ -342,9 +402,24 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     }
     else{
         
+        // inform tunnl we failed
+        NSString *targetUrl = [[tunnlDatas objectAtIndex:currentTunnlDataInd] valueForKey:@"Err"];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+          ^(NSData * _Nullable data,
+            NSURLResponse * _Nullable response,
+            NSError * _Nullable error) {
+              
+              NSLog(@"imp error");
+              
+          }] resume];
+        
         tunnlDatas = nil ; // set nil fur further ad requests.
         currentTunnlDataInd = -1;
-
+        
         
         NSArray *keys = [NSArray arrayWithObjects:@"adType",@"error", nil];
         NSArray *objects = [NSArray arrayWithObjects:@"Banner",[error localizedDescription], nil];
@@ -354,9 +429,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         
         [eventDelegate dispatchEvent:BANNER_FAILED_TO_LOAD withData:eventData];
     }
-        
-
-
+    
+    
+    
 }
 
 // Tells the delegate that a full screen view will be presented in response
@@ -383,5 +458,5 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"adViewWillLeaveApplication");
 }
 
-
 @end
+
