@@ -25,6 +25,7 @@ static NSString* PREFS_NAME = @"GDPrefsFile";
 static NSString* adUnit = @"ca-app-pub-3940256099942544/4411468910"; // test unit id
 static NSString* testAdUnit = @"ca-app-pub-3940256099942544/4411468910"; // test unit id
 static NSString* GAME_API_URL = @"https://game.api.gamedistribution.com/game/get";
+static NSString* GAME_API_TEST_URL = @"http://test.game.api.gamedistribution.com/game/get";
 static NSString* affiliateId;
 static NSString* bannerServerURL;
 static NSString* analyticServerURL;
@@ -113,6 +114,12 @@ static NSString* analyticServerURL;
 }
 +(void) setGAME_API_URL:(NSString *)val{
     GAME_API_URL = val;
+}
++(NSString*) GAME_API_TEST_URL{
+    return GAME_API_TEST_URL;
+}
++(void) setGAME_API_TEST_URL:(NSString *)val{
+    GAME_API_TEST_URL = val;
 }
 
 @end

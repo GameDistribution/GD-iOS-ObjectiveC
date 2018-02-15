@@ -31,6 +31,8 @@
 +(void) setAffiliateId:(NSString*) val;
 +(NSString*) GAME_API_URL;
 +(void) setGAME_API_URL:(NSString*)val;
++(NSString*) GAME_API_TEST_URL;
++(void) setGAME_API_TEST_URL:(NSString*)val;
 
 
 @end
