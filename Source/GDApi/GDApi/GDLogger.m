@@ -15,6 +15,7 @@
 #import "GDAdSize.h"
 #import "GDAdDelegate.h"
 #import "GDGameData.h"
+#import "Reachability.h"
 
 @implementation GDLogger
 
@@ -26,81 +27,106 @@ GDAdDelegate* delegate;
 
 +(void) init:(NSString *)gameId andWithRegId:(NSString *)regId
 {
-    NSString* lowercaseRegId = [regId lowercaseString];
-    NSArray* gameserver = [lowercaseRegId componentsSeparatedByString:@"-"];
     
-    if([gameserver count] == 6){
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+    
+    NetworkStatus status = [reachability currentReachabilityStatus];
+    
+    if(status != NotReachable)
+    {
+        NSString* lowercaseRegId = [regId lowercaseString];
+        NSArray* gameserver = [lowercaseRegId componentsSeparatedByString:@"-"];
         
-        NSString *targetUrl = [NSString stringWithFormat:@"%@/%@",[GDstatic GAME_API_URL],gameId];
-        
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setHTTPMethod:@"GET"];
-        [request setURL:[NSURL URLWithString:targetUrl]];
-        
-        [self initGDApi];
-        
-        if(![GDstatic testAds]){
-            [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
-              ^(NSData * _Nullable data,
-                NSURLResponse * _Nullable response,
-                NSError * _Nullable error) {
-                  
-                  if(error == nil){
-                      NSDictionary* res = [NSJSONSerialization JSONObjectWithData:data
-                                                                          options:kNilOptions
-                                                                            error:&error];
+        if([gameserver count] == 6){
+            
+            NSString *targetUrl = [NSString stringWithFormat:@"%@/%@",[GDstatic GAME_API_URL],gameId];
+            
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setHTTPMethod:@"GET"];
+            [request setURL:[NSURL URLWithString:targetUrl]];
+            
+            [self initGDApi];
+            
+            if(![GDstatic testAds]){
+                [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+                  ^(NSData * _Nullable data,
+                    NSURLResponse * _Nullable response,
+                    NSError * _Nullable error) {
+                      
                       if(error == nil){
-                          
-                          bool success = [res objectForKey:@"success"];
-                          if(success){
+                          NSDictionary* res = [NSJSONSerialization JSONObjectWithData:data
+                                                                              options:kNilOptions
+                                                                                error:&error];
+                          if(error == nil){
                               
-                              @try {
-                                  NSDictionary* _result = [res objectForKey:@"result"];
-                                  NSDictionary* game = [_result objectForKey:@"game"];
+                              bool success = [res objectForKey:@"success"];
+                              if(success){
                                   
-                                  [GDGameData setEnableAds:[game valueForKey:@"enableAds"]];
-                                  [GDGameData setGameMd5:[game valueForKey:@"gameMd5"]];
-                                  [GDGameData setpreRoll:[game valueForKey:@"preRoll"]];
-                                  [GDGameData setTimeAds:[[game valueForKey:@"timeAds"] intValue]];
-                                  [GDGameData setTitle:[game valueForKey:@"title"]];
-                                  [GDGameData setBundleId:[game valueForKey:@"iosBundleId"]];
-                                  
-                                  [GDstatic setRegId:[NSString stringWithFormat:@"%@-%@-%@-%@-%@",[gameserver objectAtIndex:0],[gameserver objectAtIndex:1],[gameserver objectAtIndex:2],[gameserver objectAtIndex:3],[gameserver objectAtIndex:4]]];
-                                  [GDstatic setServerId:[gameserver objectAtIndex:5]];
-                                  [GDstatic setGameId:gameId];
-                                  [GDstatic setEnable:true];
-                                  
-                                  if([self gdAPI].delegate != nil){
-                                      [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+                                  @try {
+                                      NSDictionary* _result = [res objectForKey:@"result"];
+                                      NSDictionary* game = [_result objectForKey:@"game"];
+                                      
+                                      [GDGameData setEnableAds:[game valueForKey:@"enableAds"]];
+                                      [GDGameData setGameMd5:[game valueForKey:@"gameMd5"]];
+                                      [GDGameData setpreRoll:[game valueForKey:@"preRoll"]];
+                                      [GDGameData setTimeAds:[[game valueForKey:@"timeAds"] intValue]];
+                                      [GDGameData setTitle:[game valueForKey:@"title"]];
+                                      [GDGameData setBundleId:[game valueForKey:@"iosBundleId"]];
+                                      
+                                      [GDstatic setRegId:[NSString stringWithFormat:@"%@-%@-%@-%@-%@",[gameserver objectAtIndex:0],[gameserver objectAtIndex:1],[gameserver objectAtIndex:2],[gameserver objectAtIndex:3],[gameserver objectAtIndex:4]]];
+                                      [GDstatic setServerId:[gameserver objectAtIndex:5]];
+                                      [GDstatic setGameId:gameId];
+                                      [GDstatic setEnable:true];
+                                      
+                                      if([self gdAPI].delegate != nil){
+                                          [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+                                      }
+                                      
+                                      
+                                  }
+                                  @catch (NSException *exception) {
+                                      if([self gdAPI].delegate != nil){
+                                          
+                                          NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                                          NSArray *objects = [NSArray arrayWithObjects: @"Something wrong with parsing game data.", nil];
+                                          NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                                             forKeys:keys];
+                                          NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                                          
+                                          [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
+                                      }
+                                      gdAPI = nil;
+                                      
                                   }
                                   
-                                  
                               }
-                              @catch (NSException *exception) {
+                              else{
+                                  NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                  [GDUtils log:@"Something went wrong fetching game data."];
+                                  [GDUtils log:errorStr];
+                                  
                                   if([self gdAPI].delegate != nil){
                                       
                                       NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
-                                      NSArray *objects = [NSArray arrayWithObjects: @"Something wrong with parsing game data.", nil];
+                                      NSArray *objects = [NSArray arrayWithObjects: errorStr, nil];
                                       NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                                                          forKeys:keys];
                                       NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
                                       
                                       [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
                                   }
+                                  
                                   gdAPI = nil;
-
                               }
-                              
                           }
                           else{
-                              NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                              [GDUtils log:@"Something went wrong fetching game data."];
-                              [GDUtils log:errorStr];
+                              [GDUtils log:@"Gama data is not available."];
                               
                               if([self gdAPI].delegate != nil){
                                   
                                   NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
-                                  NSArray *objects = [NSArray arrayWithObjects: errorStr, nil];
+                                  NSArray *objects = [NSArray arrayWithObjects:@"Gama data is not available.", nil];
                                   NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                                                      forKeys:keys];
                                   NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
@@ -109,15 +135,17 @@ GDAdDelegate* delegate;
                               }
                               
                               gdAPI = nil;
+                              
                           }
+                          
                       }
                       else{
-                          [GDUtils log:@"Gama data is not available."];
-
+                          [GDUtils log:@"Network error."];
+                          
                           if([self gdAPI].delegate != nil){
                               
                               NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
-                              NSArray *objects = [NSArray arrayWithObjects:@"Gama data is not available.", nil];
+                              NSArray *objects = [NSArray arrayWithObjects:@"Network error.", nil];
                               NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                                                  forKeys:keys];
                               NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
@@ -126,51 +154,48 @@ GDAdDelegate* delegate;
                           }
                           
                           gdAPI = nil;
-
                       }
                       
-                  }
-                  else{
-                      [GDUtils log:@"Network error."];
-                      
-                      if([self gdAPI].delegate != nil){
-                          
-                          NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
-                          NSArray *objects = [NSArray arrayWithObjects:@"Network error.", nil];
-                          NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
-                                                                             forKeys:keys];
-                          NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-                          
-                          [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
-                      }
-                      
-                      gdAPI = nil;
-                  }
-                  
-              }] resume];
-         
+                  }] resume];
+                
+            }
+            else{
+                if([self gdAPI].delegate != nil){
+                    [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+                }
+            }
+            
         }
         else{
+            NSLog(@"RegID is not valid.");
+            
             if([self gdAPI].delegate != nil){
-                [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
+                
+                NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                NSArray *objects = [NSArray arrayWithObjects: @"RegID is not valid.", nil];
+                NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                   forKeys:keys];
+                NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                
+                [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
             }
         }
-        
     }
     else{
-        NSLog(@"RegID is not valid.");
         
         if([self gdAPI].delegate != nil){
-            
             NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
-            NSArray *objects = [NSArray arrayWithObjects: @"RegID is not valid.", nil];
+            NSArray *objects = [NSArray arrayWithObjects:@"API cannot connect to internet. Please check the network connection.", nil];
             NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
                                                                forKeys:keys];
             NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
             
             [[self gdAPI].delegate dispatchEvent:@"onAPINotReady" withData:eventData];
         }
+        
     }
+    
+   
     
 }
 
@@ -193,20 +218,43 @@ GDAdDelegate* delegate;
 +(void) showBanner:(Boolean)isInterstitial{
     
     if(gdAPI != nil){
-     
-        if(isInterstitial){
-            if(![GDstatic testAds])
-                [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
-            else
-                [gdAPI requestInterstitial];
-
+        
+        Reachability *reachability = [Reachability reachabilityForInternetConnection];
+        [reachability startNotifier];
+        
+        NetworkStatus status = [reachability currentReachabilityStatus];
+        
+        if(status != NotReachable)
+        {
+            if(isInterstitial){
+                if(![GDstatic testAds])
+                    [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
+                else
+                    [gdAPI requestInterstitial];
+                
+            }
+            else{
+                if(![GDstatic testAds])
+                    [self showAd:false withSize:BANNER withAlignment:CENTER withPosition:BOTTOM];
+                else
+                    [gdAPI requestBanner:BANNER andAlinment:CENTER andPositon:BOTTOM];
+            }
         }
         else{
-            if(![GDstatic testAds])
-                [self showAd:false withSize:BANNER withAlignment:CENTER withPosition:BOTTOM];
-            else
-                [gdAPI requestBanner:BANNER andAlinment:CENTER andPositon:BOTTOM];
+           // no internet connection
+            
+            if([self gdAPI].delegate != nil){
+                NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                NSArray *objects = [NSArray arrayWithObjects:@"API cannot connect to internet. Please check the network connection.", nil];
+                NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                   forKeys:keys];
+                NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                
+                [[self gdAPI].delegate dispatchEvent:@"onBannerFailedToLoad" withData:eventData];
+            }
         }
+     
+       
     }
     else{
         NSLog(@"Api is not initialized!");
@@ -216,7 +264,27 @@ GDAdDelegate* delegate;
 +(void) showBanner:(NSString *)adsize withAlignment:(NSString *)alignment withPosition:(NSString *)position{
     
     if(gdAPI != nil){
-        [self showAd:false withSize:adsize withAlignment:alignment withPosition:position];
+        
+        Reachability *reachability = [Reachability reachabilityForInternetConnection];
+        [reachability startNotifier];
+        
+        NetworkStatus status = [reachability currentReachabilityStatus];
+        
+        if(status != NotReachable){
+            [self showAd:false withSize:adsize withAlignment:alignment withPosition:position];
+        }
+        else{
+            if([self gdAPI].delegate != nil){
+                NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                NSArray *objects = [NSArray arrayWithObjects:@"API cannot connect to internet. Please check the network connection.", nil];
+                NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                   forKeys:keys];
+                NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                
+                [[self gdAPI].delegate dispatchEvent:@"onBannerFailedToLoad" withData:eventData];
+            }
+        }
+        
     }
     else{
         NSLog(@"Api is not initialized!");
