@@ -22,6 +22,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		7175CF41203705C200BF5131 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 7175CF3F203705C200BF5131 /* Reachability.h */; };
+		7175CF42203705C200BF5131 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7175CF40203705C200BF5131 /* Reachability.m */; };
+		7184F5071FD1938B00FD5393 /* GDGameData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7184F5061FD1938B00FD5393 /* GDGameData.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		7184F5091FD193A100FD5393 /* GDGameData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7184F5081FD193A100FD5393 /* GDGameData.m */; };
 		C33AF7581E1BEABE00D4FE87 /* GDApi.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C33AF7551E1BEABE00D4FE87 /* GDApi.h */; };
 		C33AF75F1E1BEAF700D4FE87 /* GDApi.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7551E1BEABE00D4FE87 /* GDApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C33AF8081E1D000900D4FE87 /* GDAd.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7E51E1D000900D4FE87 /* GDAd.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -34,24 +38,8 @@
 		C33AF80F1E1D000900D4FE87 /* GDAdSize.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7EC1E1D000900D4FE87 /* GDAdSize.m */; };
 		C33AF8101E1D000900D4FE87 /* GDAlignment.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7ED1E1D000900D4FE87 /* GDAlignment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C33AF8111E1D000900D4FE87 /* GDAlignment.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7EE1E1D000900D4FE87 /* GDAlignment.m */; };
-		C33AF8121E1D000900D4FE87 /* GDbannerData.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7EF1E1D000900D4FE87 /* GDbannerData.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF8131E1D000900D4FE87 /* GDbannerData.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7F01E1D000900D4FE87 /* GDbannerData.m */; };
-		C33AF8141E1D000900D4FE87 /* GDcustomLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7F11E1D000900D4FE87 /* GDcustomLog.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF8151E1D000900D4FE87 /* GDcustomLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7F21E1D000900D4FE87 /* GDcustomLog.m */; };
-		C33AF8161E1D000900D4FE87 /* GDlogchannel.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7F31E1D000900D4FE87 /* GDlogchannel.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF8171E1D000900D4FE87 /* GDlogchannel.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7F41E1D000900D4FE87 /* GDlogchannel.m */; };
 		C33AF8181E1D000900D4FE87 /* GDLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7F51E1D000900D4FE87 /* GDLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C33AF8191E1D000900D4FE87 /* GDLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7F61E1D000900D4FE87 /* GDLogger.m */; };
-		C33AF81A1E1D000900D4FE87 /* GDLogRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7F71E1D000900D4FE87 /* GDLogRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF81B1E1D000900D4FE87 /* GDLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7F81E1D000900D4FE87 /* GDLogRequest.m */; };
-		C33AF81C1E1D000900D4FE87 /* GDpostObj.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7F91E1D000900D4FE87 /* GDpostObj.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF81D1E1D000900D4FE87 /* GDpostObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7FA1E1D000900D4FE87 /* GDpostObj.m */; };
-		C33AF81E1E1D000900D4FE87 /* GDResponseActRes.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7FB1E1D000900D4FE87 /* GDResponseActRes.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF81F1E1D000900D4FE87 /* GDResponseActRes.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7FC1E1D000900D4FE87 /* GDResponseActRes.m */; };
-		C33AF8201E1D000900D4FE87 /* GDresponseData.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7FD1E1D000900D4FE87 /* GDresponseData.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF8211E1D000900D4FE87 /* GDresponseData.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF7FE1E1D000900D4FE87 /* GDresponseData.m */; };
-		C33AF8221E1D000900D4FE87 /* GDSendObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF7FF1E1D000900D4FE87 /* GDSendObject.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C33AF8231E1D000900D4FE87 /* GDSendObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF8001E1D000900D4FE87 /* GDSendObject.m */; };
 		C33AF8241E1D000900D4FE87 /* GDstatic.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8011E1D000900D4FE87 /* GDstatic.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C33AF8251E1D000900D4FE87 /* GDstatic.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AF8021E1D000900D4FE87 /* GDstatic.m */; };
 		C33AF8261E1D000900D4FE87 /* GDUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C33AF8031E1D000900D4FE87 /* GDUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -84,6 +72,10 @@
 /* Begin PBXFileReference section */
 		2D2E265868BC5783BA7AA0B2 /* Pods-GDApi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDApi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GDApi/Pods-GDApi.debug.xcconfig"; sourceTree = "<group>"; };
 		377F5A1F2C84CB97BF6AE3E1 /* Pods-GDApi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDApi.release.xcconfig"; path = "Pods/Target Support Files/Pods-GDApi/Pods-GDApi.release.xcconfig"; sourceTree = "<group>"; };
+		7175CF3F203705C200BF5131 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		7175CF40203705C200BF5131 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		7184F5061FD1938B00FD5393 /* GDGameData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GDGameData.h; sourceTree = "<group>"; };
+		7184F5081FD193A100FD5393 /* GDGameData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GDGameData.m; sourceTree = "<group>"; };
 		C33AF7521E1BEABE00D4FE87 /* libGDApi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGDApi.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33AF7551E1BEABE00D4FE87 /* GDApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GDApi.h; sourceTree = "<group>"; };
 		C33AF7E51E1D000900D4FE87 /* GDAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAd.h; sourceTree = "<group>"; };
@@ -96,24 +88,8 @@
 		C33AF7EC1E1D000900D4FE87 /* GDAdSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDAdSize.m; sourceTree = "<group>"; };
 		C33AF7ED1E1D000900D4FE87 /* GDAlignment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDAlignment.h; sourceTree = "<group>"; };
 		C33AF7EE1E1D000900D4FE87 /* GDAlignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDAlignment.m; sourceTree = "<group>"; };
-		C33AF7EF1E1D000900D4FE87 /* GDbannerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDbannerData.h; sourceTree = "<group>"; };
-		C33AF7F01E1D000900D4FE87 /* GDbannerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDbannerData.m; sourceTree = "<group>"; };
-		C33AF7F11E1D000900D4FE87 /* GDcustomLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDcustomLog.h; sourceTree = "<group>"; };
-		C33AF7F21E1D000900D4FE87 /* GDcustomLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDcustomLog.m; sourceTree = "<group>"; };
-		C33AF7F31E1D000900D4FE87 /* GDlogchannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDlogchannel.h; sourceTree = "<group>"; };
-		C33AF7F41E1D000900D4FE87 /* GDlogchannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDlogchannel.m; sourceTree = "<group>"; };
 		C33AF7F51E1D000900D4FE87 /* GDLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDLogger.h; sourceTree = "<group>"; };
 		C33AF7F61E1D000900D4FE87 /* GDLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDLogger.m; sourceTree = "<group>"; };
-		C33AF7F71E1D000900D4FE87 /* GDLogRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDLogRequest.h; sourceTree = "<group>"; };
-		C33AF7F81E1D000900D4FE87 /* GDLogRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDLogRequest.m; sourceTree = "<group>"; };
-		C33AF7F91E1D000900D4FE87 /* GDpostObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDpostObj.h; sourceTree = "<group>"; };
-		C33AF7FA1E1D000900D4FE87 /* GDpostObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDpostObj.m; sourceTree = "<group>"; };
-		C33AF7FB1E1D000900D4FE87 /* GDResponseActRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDResponseActRes.h; sourceTree = "<group>"; };
-		C33AF7FC1E1D000900D4FE87 /* GDResponseActRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDResponseActRes.m; sourceTree = "<group>"; };
-		C33AF7FD1E1D000900D4FE87 /* GDresponseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDresponseData.h; sourceTree = "<group>"; };
-		C33AF7FE1E1D000900D4FE87 /* GDresponseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDresponseData.m; sourceTree = "<group>"; };
-		C33AF7FF1E1D000900D4FE87 /* GDSendObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDSendObject.h; sourceTree = "<group>"; };
-		C33AF8001E1D000900D4FE87 /* GDSendObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDSendObject.m; sourceTree = "<group>"; };
 		C33AF8011E1D000900D4FE87 /* GDstatic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDstatic.h; sourceTree = "<group>"; };
 		C33AF8021E1D000900D4FE87 /* GDstatic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDstatic.m; sourceTree = "<group>"; };
 		C33AF8031E1D000900D4FE87 /* GDUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDUtils.h; sourceTree = "<group>"; };
@@ -152,6 +128,8 @@
 		C33AF7541E1BEABE00D4FE87 /* GDApi */ = {
 			isa = PBXGroup;
 			children = (
+				7175CF3F203705C200BF5131 /* Reachability.h */,
+				7175CF40203705C200BF5131 /* Reachability.m */,
 				C33AF7551E1BEABE00D4FE87 /* GDApi.h */,
 				C33AF7E51E1D000900D4FE87 /* GDAd.h */,
 				C33AF7E61E1D000900D4FE87 /* GDAd.m */,
@@ -163,28 +141,14 @@
 				C33AF7EC1E1D000900D4FE87 /* GDAdSize.m */,
 				C33AF7ED1E1D000900D4FE87 /* GDAlignment.h */,
 				C33AF7EE1E1D000900D4FE87 /* GDAlignment.m */,
-				C33AF7EF1E1D000900D4FE87 /* GDbannerData.h */,
-				C33AF7F01E1D000900D4FE87 /* GDbannerData.m */,
-				C33AF7F11E1D000900D4FE87 /* GDcustomLog.h */,
-				C33AF7F21E1D000900D4FE87 /* GDcustomLog.m */,
-				C33AF7F31E1D000900D4FE87 /* GDlogchannel.h */,
-				C33AF7F41E1D000900D4FE87 /* GDlogchannel.m */,
 				C33AF7F51E1D000900D4FE87 /* GDLogger.h */,
 				C33AF7F61E1D000900D4FE87 /* GDLogger.m */,
-				C33AF7F71E1D000900D4FE87 /* GDLogRequest.h */,
-				C33AF7F81E1D000900D4FE87 /* GDLogRequest.m */,
-				C33AF7F91E1D000900D4FE87 /* GDpostObj.h */,
-				C33AF7FA1E1D000900D4FE87 /* GDpostObj.m */,
-				C33AF7FB1E1D000900D4FE87 /* GDResponseActRes.h */,
-				C33AF7FC1E1D000900D4FE87 /* GDResponseActRes.m */,
-				C33AF7FD1E1D000900D4FE87 /* GDresponseData.h */,
-				C33AF7FE1E1D000900D4FE87 /* GDresponseData.m */,
-				C33AF7FF1E1D000900D4FE87 /* GDSendObject.h */,
-				C33AF8001E1D000900D4FE87 /* GDSendObject.m */,
 				C33AF8011E1D000900D4FE87 /* GDstatic.h */,
 				C33AF8021E1D000900D4FE87 /* GDstatic.m */,
 				C33AF8031E1D000900D4FE87 /* GDUtils.h */,
 				C33AF8041E1D000900D4FE87 /* GDUtils.m */,
+				7184F5061FD1938B00FD5393 /* GDGameData.h */,
+				7184F5081FD193A100FD5393 /* GDGameData.m */,
 			);
 			path = GDApi;
 			sourceTree = "<group>";
@@ -216,17 +180,11 @@
 				C33AF80C1E1D000900D4FE87 /* GDAdPosition.h in Headers */,
 				C33AF80E1E1D000900D4FE87 /* GDAdSize.h in Headers */,
 				C33AF8101E1D000900D4FE87 /* GDAlignment.h in Headers */,
-				C33AF8221E1D000900D4FE87 /* GDSendObject.h in Headers */,
 				C33AF8081E1D000900D4FE87 /* GDAd.h in Headers */,
-				C33AF8201E1D000900D4FE87 /* GDresponseData.h in Headers */,
 				C33AF8241E1D000900D4FE87 /* GDstatic.h in Headers */,
-				C33AF81A1E1D000900D4FE87 /* GDLogRequest.h in Headers */,
-				C33AF8141E1D000900D4FE87 /* GDcustomLog.h in Headers */,
-				C33AF8161E1D000900D4FE87 /* GDlogchannel.h in Headers */,
-				C33AF8121E1D000900D4FE87 /* GDbannerData.h in Headers */,
+				7175CF41203705C200BF5131 /* Reachability.h in Headers */,
+				7184F5071FD1938B00FD5393 /* GDGameData.h in Headers */,
 				C33AF8261E1D000900D4FE87 /* GDUtils.h in Headers */,
-				C33AF81E1E1D000900D4FE87 /* GDResponseActRes.h in Headers */,
-				C33AF81C1E1D000900D4FE87 /* GDpostObj.h in Headers */,
 				C33AF8181E1D000900D4FE87 /* GDLogger.h in Headers */,
 				C33AF75F1E1BEAF700D4FE87 /* GDApi.h in Headers */,
 			);
@@ -362,21 +320,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C33AF8231E1D000900D4FE87 /* GDSendObject.m in Sources */,
-				C33AF8151E1D000900D4FE87 /* GDcustomLog.m in Sources */,
 				C33AF8111E1D000900D4FE87 /* GDAlignment.m in Sources */,
-				C33AF8171E1D000900D4FE87 /* GDlogchannel.m in Sources */,
-				C33AF81F1E1D000900D4FE87 /* GDResponseActRes.m in Sources */,
 				C33AF80B1E1D000900D4FE87 /* GDAdDelegate.m in Sources */,
+				7184F5091FD193A100FD5393 /* GDGameData.m in Sources */,
 				C33AF80D1E1D000900D4FE87 /* GDAdPosition.m in Sources */,
+				7175CF42203705C200BF5131 /* Reachability.m in Sources */,
 				C33AF8251E1D000900D4FE87 /* GDstatic.m in Sources */,
-				C33AF81D1E1D000900D4FE87 /* GDpostObj.m in Sources */,
-				C33AF8131E1D000900D4FE87 /* GDbannerData.m in Sources */,
-				C33AF81B1E1D000900D4FE87 /* GDLogRequest.m in Sources */,
 				C33AF80F1E1D000900D4FE87 /* GDAdSize.m in Sources */,
 				C33AF8191E1D000900D4FE87 /* GDLogger.m in Sources */,
 				C33AF8091E1D000900D4FE87 /* GDAd.m in Sources */,
-				C33AF8211E1D000900D4FE87 /* GDresponseData.m in Sources */,
 				C33AF8271E1D000900D4FE87 /* GDUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +477,7 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = FKJ4632WST;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -534,6 +487,7 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = FKJ4632WST;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
