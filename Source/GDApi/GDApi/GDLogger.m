@@ -243,7 +243,7 @@ GDAdDelegate* delegate;
                     else
                         [gdAPI requestInterstitial];
                     
-                    //[self requestPreload]; // preload ad for next request.
+                    [self requestPreload]; // preload ad for next request.
                 }
             }
             else{
