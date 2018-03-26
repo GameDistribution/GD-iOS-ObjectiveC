@@ -20,9 +20,9 @@
 @implementation GDLogger
 
 static GDAd* gdAPI;
+static GDAd* gdPreloadStream;
 NSMutableArray* elementsArray;
 NSString* currentString;
-Boolean preShowed = false;
 GDAdDelegate* delegate;
 
 +(void) init:(NSString *)gameId andWithRegId:(NSString *)regId
@@ -79,6 +79,8 @@ GDAdDelegate* delegate;
                                       [GDstatic setGameId:gameId];
                                       [GDstatic setEnable:true];
                                       
+                                      [self requestPreload];
+
                                       if([self gdAPI].delegate != nil){
                                           [[self gdAPI].delegate dispatchEvent:@"onAPIReady" withData:nil];
                                       }
@@ -202,13 +204,17 @@ GDAdDelegate* delegate;
 +(void) initGDApi{
     if(gdAPI == nil){
         UIViewController *rootViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-        gdAPI = [[GDAd alloc] init:rootViewController andWithDelegate:delegate];
+        gdAPI = [[GDAd alloc] init:rootViewController andWithDelegate:delegate andWithIsPreloadStream:false];
+        gdPreloadStream = [[GDAd alloc] init:rootViewController andWithDelegate:delegate andWithIsPreloadStream:true];
     }
-
 }
 
 +(GDAd*) gdAPI{
     return gdAPI;
+}
+
++(GDAd*) gdPreloadStream{
+    return gdPreloadStream;
 }
 
 +(void) debug:(Boolean)val{
@@ -227,11 +233,18 @@ GDAdDelegate* delegate;
         if(status != NotReachable)
         {
             if(isInterstitial){
-                if(![GDstatic testAds])
-                    [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
-                else
-                    [gdAPI requestInterstitial];
                 
+                if([gdPreloadStream isPreloadedAdExist]){
+                    [gdPreloadStream showPreloadedAd];
+                }
+                else{
+                    if(![GDstatic testAds])
+                        [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
+                    else
+                        [gdAPI requestInterstitial];
+                    
+                    //[self requestPreload]; // preload ad for next request.
+                }
             }
             else{
                 if(![GDstatic testAds])
@@ -253,8 +266,6 @@ GDAdDelegate* delegate;
                 [[self gdAPI].delegate dispatchEvent:@"onBannerFailedToLoad" withData:eventData];
             }
         }
-     
-       
     }
     else{
         NSLog(@"Api is not initialized!");
@@ -381,4 +392,66 @@ GDAdDelegate* delegate;
     [GDstatic setTestAds:true];
 }
 
++(void) requestPreload {
+    if(gdPreloadStream != nil){
+        NSString *msize = @"interstitial";
+        
+        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=ios.%@&msize=%@",[GDGameData bundleId],msize];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setHTTPMethod:@"GET"];
+        [request setURL:[NSURL URLWithString:targetUrl]];
+        
+        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
+          ^(NSData * _Nullable data,
+            NSURLResponse * _Nullable response,
+            NSError * _Nullable error) {
+              
+              if(error == nil){
+                  NSDictionary* res = [NSJSONSerialization JSONObjectWithData:data
+                                                                      options:kNilOptions
+                                                                        error:&error];
+                  if(error == nil){
+                      NSArray *tunnlData = [res objectForKey:@"Items"];
+                      [gdPreloadStream setTunnlData:tunnlData];
+                      
+                      if([tunnlData count] > 0){
+                          [gdPreloadStream requestInterstitial];
+                      }
+                      else{
+                          [GDUtils log:@"Game data is empty."];
+                          NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                          NSArray *objects = [NSArray arrayWithObjects: @"Game data is empty.", nil];
+                          NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                             forKeys:keys];
+                          NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                          
+                          [[self gdPreloadStream].delegate dispatchEvent:@"onPreloadFailed" withData:eventData];
+                      }
+                      
+                  }
+                  else{
+                      [GDUtils log:@"Tunnl data is not json."];
+                      NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                      NSArray *objects = [NSArray arrayWithObjects: @"Something went wrong parsing game data.", nil];
+                      NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                         forKeys:keys];
+                      NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                      
+                      [[self gdPreloadStream].delegate dispatchEvent:@"onPreloadFailed" withData:eventData];
+                  }
+              }
+              else{
+                  NSArray *keys = [NSArray arrayWithObjects:@"error", nil];
+                  NSArray *objects = [NSArray arrayWithObjects: @"Something went wrong fetching game data.", nil];
+                  NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                                     forKeys:keys];
+                  NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+                  
+                 [[self gdPreloadStream].delegate dispatchEvent:@"onPreloadFailed" withData:eventData];
+              }
+              
+          }] resume];
+    }
+}
 @end

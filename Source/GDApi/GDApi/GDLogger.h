@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *currentElement;
 
 +(GDAd*) gdAPI;
++(GDAd*) gdPreloadStream;
 +(void) init:(NSString*) gameId andWithRegId:(NSString*) regId;
 +(void) debug:(Boolean)val;
 +(void) showBanner:(Boolean) isInterstitial;
