@@ -242,9 +242,9 @@ GDAdDelegate* delegate;
                         [self showAd:true withSize:nil withAlignment:nil withPosition:nil];
                     else
                         [gdAPI requestInterstitial];
-                    
-                    [self requestPreload]; // preload ad for next request.
                 }
+                
+                [self requestPreload]; // preload ad for next request.
             }
             else{
                 if(![GDstatic testAds])
@@ -310,8 +310,8 @@ GDAdDelegate* delegate;
         if(!isInterstitial){
             msize = adsize;
         }
-        
-        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=ios.%@&msize=%@",[GDGameData bundleId],msize];
+        NSString * timeStampValue = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=ios.%@&msize=%@&correlator=%@",[GDGameData bundleId],msize, timeStampValue];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setHTTPMethod:@"GET"];
@@ -396,7 +396,8 @@ GDAdDelegate* delegate;
     if(gdPreloadStream != nil){
         NSString *msize = @"interstitial";
         
-        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=ios.%@&msize=%@",[GDGameData bundleId],msize];
+        NSString * timeStampValue = [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]];
+        NSString *targetUrl = [NSString stringWithFormat:@"https://pub.tunnl.com/oppm?bundleid=ios.%@&msize=%@&correlator=%@",[GDGameData bundleId],msize, timeStampValue];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setHTTPMethod:@"GET"];
