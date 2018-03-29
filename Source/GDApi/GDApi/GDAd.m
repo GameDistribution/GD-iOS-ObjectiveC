@@ -351,7 +351,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 // Called just before presenting an interstitial.
 - (void)interstitialWillPresentScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillPresentScreen");
-    // [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
+    [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
 }
 
 // Called before the interstitial is to be animated off the screen.
@@ -363,13 +363,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 // Called just after dismissing an interstitial and it has animated off the screen.
 - (void)interstitialDidDismissScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialDidDismissScreen");
-    
-    if(self.isPreloadStream){
-        [eventDelegate dispatchEvent:PRELOAD_COMPLETE withData:nil];
-    }
-    else{
-        [eventDelegate dispatchEvent:BANNER_CLOSED withData:nil];
-    }
+    [eventDelegate dispatchEvent:PRELOAD_COMPLETE withData:nil];
+    [eventDelegate dispatchEvent:BANNER_CLOSED withData:nil];
 }
 
 // Called just before the app will background or terminate because the user clicked on an
@@ -378,7 +373,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitialWillLeaveApplication");
 }
 
-// for banner event
+//*** for banner events
+
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(DFPBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
