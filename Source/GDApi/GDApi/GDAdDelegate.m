@@ -33,5 +33,14 @@
     else if([event isEqualToString:@"onAPIReady"]){
         [self.delegate onAPIReady:self];
     }
+    else if([event isEqualToString:@"onPreloadFailed"]){
+        [self.delegate onPreloadFailed:self withData:data];
+    }
+    else if([event isEqualToString:@"onPreloadedAdCompleted"]){
+        [self.delegate onPreloadedAdCompleted:self];
+    }
+    else if([event isEqualToString:@"onAdPreloaded"]){
+        [self.delegate onAdPreloaded:self];
+    }
 }
 @end

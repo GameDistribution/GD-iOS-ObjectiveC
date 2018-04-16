@@ -19,6 +19,9 @@
 -(void) onBannerFailedToLoad:(GDAdDelegate*) sender withData:(NSData*) data;
 -(void) onAPINotReady:(GDAdDelegate*) sender withData:(NSData*) data;
 -(void) onAPIReady:(GDAdDelegate*) sender;
+-(void) onAdPreloaded:(GDAdDelegate*) sender;
+-(void) onPreloadedAdCompleted:(GDAdDelegate*) sender;
+-(void) onPreloadFailed:(GDAdDelegate*) sender withData:(NSData*) data;
 
 @end
 

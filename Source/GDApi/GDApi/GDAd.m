@@ -21,6 +21,8 @@
 @property(nonatomic,strong) UIViewController *context;
 @property(nonatomic, strong) DFPInterstitial *interstitial;
 @property(nonatomic, strong) NSString *deviceID;
+@property (nonatomic, assign) BOOL isPreloadStream;
+
 
 @end
 
@@ -32,7 +34,9 @@ NSString * BANNER_CLOSED = @"onBannerClosed";
 NSString * BANNER_STARTED = @"onBannerStarted";
 NSString * API_NOT_READY = @"onAPINotReady";
 NSString * API_IS_READY = @"onAPIReady";
-
+NSString * PRELOAD_AD = @"onAdPreloaded";
+NSString * PRELOAD_FAILED = @"onPreloadFailed";
+NSString * PRELOAD_COMPLETE = @"onPreloadedAdCompleted";
 NSString *bannerTestUnitId = @"/6499/example/banner";
 NSString *interstitialTestUnitId = @"/6499/example/interstitial";
 GDAdDelegate* eventDelegate;
@@ -44,9 +48,10 @@ BOOL bannerActive = false;
 int W_Banner;
 int H_Banner;
 
--(id) init:(UIViewController *)context andWithDelegate:(GDAdDelegate*) eventlistener{
+-(id) init:(UIViewController *)context andWithDelegate:(GDAdDelegate*) eventlistener andWithIsPreloadStream:(Boolean)isPreload{
     
     self.context = context;
+    self.isPreloadStream = isPreload;
     isApiInitialized = true;
     
     if(eventlistener != nil){
@@ -276,15 +281,22 @@ int H_Banner;
     currentTunnlDataInd = -1; // reset index for further requests
     
     if (self.interstitial.isReady) {
-        [self.interstitial presentFromRootViewController:self.context];
         
-        NSArray *keys = [NSArray arrayWithObjects:@"adType",@"width",@"height", nil];
-        NSArray *objects = [NSArray arrayWithObjects:@"Interstitial",@"-1",@"-1", nil];
-        NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
-                                                           forKeys:keys];
-        NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-        
-        [eventDelegate dispatchEvent:BANNER_RECEIVED withData:eventData];
+        if(!self.isPreloadStream){
+            [self.interstitial presentFromRootViewController:self.context];
+            
+            NSArray *keys = [NSArray arrayWithObjects:@"adType",@"width",@"height", nil];
+            NSArray *objects = [NSArray arrayWithObjects:@"Interstitial",@"-1",@"-1", nil];
+            NSDictionary *myData = [NSDictionary dictionaryWithObjects:objects
+                                                               forKeys:keys];
+            NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
+            
+            [eventDelegate dispatchEvent:BANNER_RECEIVED withData:eventData];
+            
+        }
+        else{
+            [eventDelegate dispatchEvent:PRELOAD_AD withData:nil];
+        }
         
     } else {
         NSLog(@"Ad wasn't ready");
@@ -326,7 +338,12 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
                                                            forKeys:keys];
         NSData* eventData = [NSKeyedArchiver archivedDataWithRootObject:myData];
         
-        [eventDelegate dispatchEvent:BANNER_FAILED_TO_LOAD withData:eventData];
+        if(self.isPreloadStream){
+            [eventDelegate dispatchEvent:PRELOAD_FAILED withData:eventData];
+        }
+        else{
+            [eventDelegate dispatchEvent:BANNER_FAILED_TO_LOAD withData:eventData];
+        }
         
     }
 }
@@ -334,7 +351,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 // Called just before presenting an interstitial.
 - (void)interstitialWillPresentScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillPresentScreen");
-    // [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
+    [eventDelegate dispatchEvent:BANNER_STARTED withData:nil];
 }
 
 // Called before the interstitial is to be animated off the screen.
@@ -346,6 +363,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 // Called just after dismissing an interstitial and it has animated off the screen.
 - (void)interstitialDidDismissScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialDidDismissScreen");
+    [eventDelegate dispatchEvent:PRELOAD_COMPLETE withData:nil];
     [eventDelegate dispatchEvent:BANNER_CLOSED withData:nil];
 }
 
@@ -355,7 +373,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"interstitialWillLeaveApplication");
 }
 
-// for banner event
+//*** for banner events
+
 // Tells the delegate an ad request loaded an ad.
 - (void)adViewDidReceiveAd:(DFPBannerView *)adView {
     NSLog(@"adViewDidReceiveAd");
@@ -458,5 +477,15 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     NSLog(@"adViewWillLeaveApplication");
 }
 
+- (Boolean) isPreloadedAdExist{
+    if(self.interstitial == nil) return false;
+    return [self.interstitial isReady] && self.isPreloadStream;
+}
+
+- (void) showPreloadedAd{
+    if(self.interstitial != nil && [self.interstitial isReady]){
+        [self.interstitial presentFromRootViewController:self.context];
+    }
+}
 @end
 

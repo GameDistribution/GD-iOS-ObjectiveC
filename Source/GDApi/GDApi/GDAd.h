@@ -15,7 +15,7 @@
 
 
 @interface GDAd : NSObject
--(id) init:(UIViewController *) context andWithDelegate:(GDAdDelegate*) eventlistener;
+-(id) init:(UIViewController *) context andWithDelegate:(GDAdDelegate*) eventlistener andWithIsPreloadStream:(Boolean) isPreloadStream;
 -(void) requestInterstitial;
 -(void) requestBanner: (NSString *) size andAlinment:(NSString*) alignment andPositon:(NSString *)position;
 -(void) addCustomTargeting:(NSString *) tag andValue:(NSString*) value;
@@ -23,6 +23,8 @@
 -(GDAdDelegate*) delegate;
 -(void) setDelegate:(GDAdDelegate*) del;
 -(void) setTunnlData:(NSArray*) tunnlData;
+-(Boolean) isPreloadedAdExist;
+-(void) showPreloadedAd;
 @end
 
 
