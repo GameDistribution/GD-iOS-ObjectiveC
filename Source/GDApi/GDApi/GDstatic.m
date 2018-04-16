@@ -24,8 +24,8 @@ static NSString* sVersion = @"v1";
 static NSString* PREFS_NAME = @"GDPrefsFile";
 static NSString* adUnit = @"ca-app-pub-3940256099942544/4411468910"; // test unit id
 static NSString* testAdUnit = @"ca-app-pub-3940256099942544/4411468910"; // test unit id
-static NSString* GAME_API_URL = @"https://game.api.gamedistribution.com/game/get";
-static NSString* GAME_API_TEST_URL = @"http://test.game.api.gamedistribution.com/game/get";
+static NSString* GAME_API_URL = @"https://game-prod.api.gamedistribution.com/game/get";
+static NSString* GAME_API_TEST_URL = @"http://game-dev.api.gamedistribution.com/game/get";
 static NSString* affiliateId;
 static NSString* bannerServerURL;
 static NSString* analyticServerURL;
